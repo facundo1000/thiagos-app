@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  apellido    String
+  dni         Int       @unique
+  direccion   String
+  ciudad      String
+  provincia   String
+  pais        String
+  telefono    BigInt
+  email       String    @unique
+  baja_motivo String?
+  baja_fecha  DateTime?
+  activo      Boolean?
+  Turno       Turno[]
+}
+
+model Turno {
+  id            Int             @id @default(autoincrement())
+  fecha         DateTime
+  usuario_id    Int
+  usuario       Usuario         @relation(fields: [usuario_id], references: [id])
+  cliente_id    Int             @unique
+  cliente       Cliente         @relation(fields: [cliente_id], references: [id])
+  activo        Boolean?
+  TurnoServicio TurnoServicio[]
+}
+
+model Cliente {
+  id       Int      @id @default(autoincrement())
+  nombre   String
+  apellido String
+  dni      Int      @unique
+  email    String   @unique
+  telefono BigInt
+  activo   Boolean?
+  Turno    Turno?
+}
+
+model Servicio {
+  id            Int             @id @default(autoincrement())
+  nombre        String
+  precio        Float
+  baja_motivo   String?
+  baja_fecha    DateTime?
+  activo        Boolean?
+  TurnoServicio TurnoServicio[]
+}
+
+//Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
+model TurnoServicio {
+  id          Int      @id @default(autoincrement())
+  turno_id    Int
+  turno       Turno    @relation(fields: [turno_id], references: [id])
+  servicio_id Int
+  servicio    Servicio @relation(fields: [servicio_id], references: [id])
+  activo      Boolean?
+}
