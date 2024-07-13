@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
