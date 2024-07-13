@@ -57,24 +57,6 @@ async function main() {
     ],
   });
 
-  //Turnos
-  const turnos = await prisma.turno.createMany({
-    data: [
-      {
-        fecha: new Date(2024, 9, 27, 10, 30, 0, 0),
-        usuario_id: 1,
-        cliente_id: 1,
-        activo: true,
-      },
-      {
-        fecha: new Date(2024, 1, 10, 11, 30, 0, 0),
-        cliente_id: 2,
-        usuario_id: 2,
-        activo: true,
-      },
-    ],
-  });
-
   // Servicios
   const servicios = await prisma.servicio.createMany({
     data: [
@@ -86,6 +68,26 @@ async function main() {
       {
         nombre: "depilacion",
         precio: 1800,
+        activo: true,
+      },
+    ],
+  });
+
+  //Turnos
+  const turnos = await prisma.turno.createMany({
+    data: [
+      {
+        fecha: new Date(2024, 9, 27, 10),
+        hora: new Date(0, 0, 0, 10, 30),
+        usuario_id: 1,
+        cliente_id: 1,
+        activo: true,
+      },
+      {
+        fecha: new Date(2024, 1, 10, 11),
+        hora: new Date(0, 0, 0, 11, 30),
+        cliente_id: 2,
+        usuario_id: 2,
         activo: true,
       },
     ],

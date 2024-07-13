@@ -32,11 +32,12 @@ model Usuario {
 
 model Turno {
   id            Int             @id @default(autoincrement())
-  fecha         DateTime
+  fecha         DateTime        @db.Date
+  hora          DateTime        @db.Time(3)
   usuario_id    Int
-  usuario       Usuario         @relation(fields: [usuario_id], references: [id])
+  usuario       Usuario         @relation(fields: [usuario_id], references: [id], onUpdate: Cascade)
   cliente_id    Int             @unique
-  cliente       Cliente         @relation(fields: [cliente_id], references: [id])
+  cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
   TurnoServicio TurnoServicio[]
 }
@@ -63,6 +64,7 @@ model Servicio {
 }
 
 //Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
+//TODO: orphan removal no olvidar; y cascade para las entidades relacionadas
 model TurnoServicio {
   id          Int      @id @default(autoincrement())
   turno_id    Int
