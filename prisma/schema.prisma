@@ -13,10 +13,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TURNO_ESTADOS {
+  PENDIENTE
+  CONFIRMADO
+  CANCELADO
+}
+
+enum TIPO_DNI {
+  DNI
+  PASAPORTE
+  LC
+  LE
+}
+
 model Usuario {
   id          Int       @id @default(autoincrement())
   nombre      String
   apellido    String
+  tipo_dni    TIPO_DNI?
   dni         Int       @unique
   direccion   String
   ciudad      String
@@ -39,15 +53,17 @@ model Turno {
   cliente_id    Int             @unique
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
+  estado        TURNO_ESTADOS
   TurnoServicio TurnoServicio[]
 }
 
 model Cliente {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   nombre   String
   apellido String
-  dni      Int      @unique
-  email    String   @unique
+  tipo_dni TIPO_DNI?
+  dni      Int       @unique
+  email    String    @unique
   telefono BigInt
   activo   Boolean?
   Turno    Turno?
