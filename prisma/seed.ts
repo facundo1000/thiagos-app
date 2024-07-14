@@ -85,7 +85,7 @@ async function main() {
         hora: new Date(0, 0, 0, 10, 30),
         usuario_id: 1,
         cliente_id: 1,
-        estado: TURNO_ESTADOS.CONFIRMADO,
+        estado: TURNO_ESTADOS.REALIZADO,
         activo: true,
       },
       {
@@ -93,7 +93,7 @@ async function main() {
         hora: new Date(0, 0, 0, 11, 30),
         cliente_id: 2,
         usuario_id: 2,
-        estado: TURNO_ESTADOS.CONFIRMADO,
+        estado: TURNO_ESTADOS.REALIZADO,
         activo: true,
       },
     ],
