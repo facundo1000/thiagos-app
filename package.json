@@ -30,6 +30,7 @@
     "@prisma/client": "^5.16.1",
     "autoprefixer": "^10.4.19",
     "hbs": "^4.2.0",
+    "moment": "^2.30.1",
     "postcss": "^8.4.39",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
