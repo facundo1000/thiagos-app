@@ -54,7 +54,6 @@ model Turno {
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
   estado        TURNO_ESTADOS
-  showed        Boolean         @default(true)
   TurnoServicio TurnoServicio[]
 }
 
