@@ -11,6 +11,7 @@ import {
 import { CreateUsuarioDto } from "./dto/create-usuario.dto";
 import { UpdateUsuarioDto } from "./dto/update-usuario.dto";
 import { UsuariosService } from "./usuarios.service";
+import { TIPO_DNI } from "@prisma/client";
 
 @Controller("/usuarios")
 export class UsuariosController {
@@ -20,7 +21,8 @@ export class UsuariosController {
   @Render("usuariosAbm")
   async findAll() {
     const users = await this.usuariosService.findAll();
-    return { users };
+    const tipos = TIPO_DNI;
+    return { users, tipos };
   }
 
   @Post("/create")
@@ -37,8 +39,9 @@ export class UsuariosController {
     const user = await this.usuariosService.findOne(+id);
     const users = await this.usuariosService.findAll();
     const edit: boolean = true;
+    const tipos = TIPO_DNI;
     console.log(`usuario ${id} editado, redirigiendo a /usuarios ${edit}`);
-    return { user, users, edit };
+    return { user, users, edit, tipos };
   }
 
   @Post("/update/user/:id")
