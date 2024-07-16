@@ -4,15 +4,19 @@
 import { Injectable } from "@nestjs/common";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
+import { ConnectorService } from "src/connector/connector.service";
+import { Turno } from "@prisma/client";
 
 @Injectable()
 export class TurnosService {
-  create(createTurnoDto: CreateTurnoDto) {
-    return "This action adds a new turno";
+  constructor(private repo: ConnectorService) {}
+
+  async findAll(): Promise<Turno[]> {
+    return this.repo.turno.findMany();
   }
 
-  findAll() {
-    return `This action returns all turnos`;
+  create(createTurnoDto: CreateTurnoDto) {
+    return "This action adds a new turno";
   }
 
   findOne(id: number) {
