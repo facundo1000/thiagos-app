@@ -1,43 +1,57 @@
 /* eslint-disable prettier/prettier */
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Post,
+  Redirect,
+  Render,
 } from "@nestjs/common";
+import { TIPO_DNI } from "@prisma/client";
 import { ClientesService } from "./clientes.service";
 import { CreateClienteDto } from "./dto/create-cliente.dto";
 import { UpdateClienteDto } from "./dto/update-cliente.dto";
 
-@Controller("clientes")
+@Controller("/clientes")
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
-  @Post()
-  create(@Body() createClienteDto: CreateClienteDto) {
-    return this.clientesService.create(createClienteDto);
-  }
-
   @Get()
-  findAll() {
-    return this.clientesService.findAll();
+  @Render("clientesAbm")
+  async findAll() {
+    const clientes = await this.clientesService.findAll();
+    const tipos = TIPO_DNI;
+    return { clientes, tipos };
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.clientesService.findOne(+id);
+  @Post("/create")
+  @Redirect("/clientes")
+  async create(@Body() createClienteDto: CreateClienteDto) {
+    const edit: boolean = false;
+    const cliente = await this.clientesService.create(createClienteDto);
+    return { cliente, edit };
   }
 
-  @Patch(":id")
+  @Get("/edit/cliente/:id")
+  @Render("clientesAbm")
+  async findOne(@Param("id") id: string) {
+    const cliente = await this.clientesService.findOne(+id);
+    const clientes = await this.clientesService.findAll();
+    const tipos = TIPO_DNI;
+    const edit: boolean = true;
+    return { cliente, clientes, tipos, edit };
+  }
+
+  @Post("/update/cliente/:id")
+  @Redirect("/clientes")
   update(@Param("id") id: string, @Body() updateClienteDto: UpdateClienteDto) {
     return this.clientesService.update(+id, updateClienteDto);
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
+  @Get("/delete/cliente/:id")
+  @Redirect("/clientes")
+  async remove(@Param("id") id: string) {
     return this.clientesService.remove(+id);
   }
 }
