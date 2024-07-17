@@ -12,7 +12,9 @@ export class TurnosService {
   constructor(private repo: ConnectorService) {}
 
   async findAll(): Promise<Turno[]> {
-    return this.repo.turno.findMany();
+    return this.repo.turno.findMany({
+      include: { cliente: true, usuario: true },
+    });
   }
 
   create(createTurnoDto: CreateTurnoDto) {
@@ -20,7 +22,7 @@ export class TurnosService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} turno`;
+    return this.repo.turno.findUnique({ where: { id } });
   }
 
   update(id: number, updateTurnoDto: UpdateTurnoDto) {
