@@ -2,26 +2,57 @@
 import { Injectable } from "@nestjs/common";
 import { CreateServicioDto } from "./dto/create-servicio.dto";
 import { UpdateServicioDto } from "./dto/update-servicio.dto";
+import { ConnectorService } from "src/connector/connector.service";
+import { Servicio } from "@prisma/client";
 
 @Injectable()
 export class ServiciosService {
-  create(createServicioDto: CreateServicioDto) {
-    return "This action adds a new servicio";
+  constructor(private repo: ConnectorService) {}
+
+  //Funcion para buscar todos los servicios
+  async findAll(): Promise<Servicio[]> {
+    return this.repo.servicio.findMany();
   }
 
-  findAll() {
-    return `This action returns all servicios`;
+  //Funcion para crear servicio
+  async create(createServicioDto: CreateServicioDto): Promise<Servicio> {
+    const transformServicio = {
+      ...createServicioDto,
+      precio: +createServicioDto.precio,
+      activo: true,
+    };
+    return this.repo.servicio.create({ data: transformServicio });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} servicio`;
+  //Funcion para buscar servicio por id
+  async findOne(id: number): Promise<Servicio> {
+    return this.repo.servicio.findUnique({ where: { id } });
   }
 
-  update(id: number, updateServicioDto: UpdateServicioDto) {
-    return `This action updates a #${id} servicio`;
+  //Funcion para actualizar servicio
+  async update(
+    id: number,
+    updateServicioDto: UpdateServicioDto
+  ): Promise<void> {
+    const transformServicio = {
+      ...updateServicioDto,
+      precio: +updateServicioDto.precio,
+      activo: true,
+    };
+    const servicio = this.repo.servicio.update({
+      where: { id },
+      data: transformServicio,
+    });
+
+    console.log(`Servicio ${(await servicio).id} actualizado`); //Log de usuario actualizado
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} servicio`;
+  //Funcion para eliminar servicio
+  async remove(id: number): Promise<void> {
+    const servicio = this.repo.servicio.update({
+      where: { id },
+      data: { activo: false },
+    });
+    console.log(`Servicio ${(await servicio).id} eliminado`); //Log de usuario actualizado
   }
 }

@@ -1,37 +1,51 @@
 /* eslint-disable prettier/prettier */
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Post,
+  Redirect,
+  Render,
 } from "@nestjs/common";
-import { ServiciosService } from "./servicios.service";
 import { CreateServicioDto } from "./dto/create-servicio.dto";
 import { UpdateServicioDto } from "./dto/update-servicio.dto";
+import { ServiciosService } from "./servicios.service";
 
-@Controller("servicios")
+@Controller("/servicios")
 export class ServiciosController {
   constructor(private readonly serviciosService: ServiciosService) {}
 
-  @Post()
-  create(@Body() createServicioDto: CreateServicioDto) {
-    return this.serviciosService.create(createServicioDto);
-  }
-
+  //Funcion para buscar todos los servicios
   @Get()
-  findAll() {
-    return this.serviciosService.findAll();
+  @Render("servicios")
+  async findAll() {
+    const servicios = await this.serviciosService.findAll();
+    return { servicios };
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.serviciosService.findOne(+id);
+  //Funcion para crear servicio
+  @Post("/create")
+  @Redirect("/servicios")
+  async create(@Body() createServicioDto: CreateServicioDto) {
+    const servicio = await this.serviciosService.create(createServicioDto);
+    const edit: boolean = false;
+    return { servicio, edit };
   }
 
-  @Patch(":id")
+  //Funcion para buscar servicio por id
+  @Get("/edit/servicio/:id")
+  @Render("servicios")
+  async edit(@Param("id") id: string) {
+    const servicio = await this.serviciosService.findOne(+id);
+    const servicios = await this.serviciosService.findAll();
+    const edit: boolean = true;
+    return { servicio, servicios, edit };
+  }
+
+  //Funcion para actualizar servicio
+  @Post("/update/servicio/:id")
+  @Redirect("/servicios")
   update(
     @Param("id") id: string,
     @Body() updateServicioDto: UpdateServicioDto
@@ -39,8 +53,10 @@ export class ServiciosController {
     return this.serviciosService.update(+id, updateServicioDto);
   }
 
-  @Delete(":id")
+  //Funcion para eliminar servicio
+  @Get("/delete/servicio/:id")
+  @Redirect("/servicios")
   remove(@Param("id") id: string) {
-    return this.serviciosService.remove(+id);
+    this.serviciosService.remove(+id);
   }
 }

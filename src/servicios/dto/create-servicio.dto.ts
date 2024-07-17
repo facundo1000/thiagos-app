@@ -1,2 +1,6 @@
 /* eslint-disable prettier/prettier */
-export class CreateServicioDto {}
+export class CreateServicioDto {
+  nombre: string;
+  precio: number;
+  activo: boolean;
+}
