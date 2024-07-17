@@ -16,8 +16,8 @@ export class ClientesService {
   }
 
   //Funcion para buscar cliente por id
-  findOne(id: number) {
-    return `This action returns a #${id} cliente`;
+  async findOne(id: number): Promise<Cliente> {
+    return this.repo.cliente.findUnique({ where: { id } });
   }
 
   //Funcion para crear cliente
@@ -32,8 +32,20 @@ export class ClientesService {
   }
 
   //Funcion para actualizar cliente
-  update(id: number, updateClienteDto: UpdateClienteDto) {
-    return `This action updates a #${id} cliente`;
+  async update(id: number, updateClienteDto: UpdateClienteDto): Promise<void> {
+    //Parseo de datos de string a number
+    const transformCliente = {
+      ...updateClienteDto,
+      dni: +updateClienteDto.dni,
+      telefono: +updateClienteDto.telefono,
+    };
+    //Actualizacion de cliente mediante cliente de prisma
+    const cliente = this.repo.cliente.update({
+      where: { id },
+      data: transformCliente,
+    });
+
+    console.log(`CLiente ${(await cliente).id} actualizado`); //Log de usuario actualizado
   }
 
   //Funcion para eliminar cliente
@@ -42,5 +54,6 @@ export class ClientesService {
       where: { id },
       data: { activo: false },
     });
+    console.log(`Usuario ${(await cliente).id} eliminado`); //Log de usuario eliminado
   }
 }
