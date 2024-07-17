@@ -35,7 +35,7 @@ export class ClientesController {
 
   @Get("/edit/cliente/:id")
   @Render("clientesAbm")
-  async findOne(@Param("id") id: string) {
+  async edit(@Param("id") id: string) {
     const cliente = await this.clientesService.findOne(+id);
     const clientes = await this.clientesService.findAll();
     const tipos = TIPO_DNI;
