@@ -17,8 +17,8 @@ export class TurnosService {
     });
   }
 
-  create(createTurnoDto: CreateTurnoDto) {
-    return "This action adds a new turno";
+  async create(createTurnoDto: CreateTurnoDto): Promise<Turno> {
+    return null;
   }
 
   findOne(id: number) {

@@ -15,22 +15,21 @@ import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
 import { TurnosService } from "./turnos.service";
+import { ServiciosService } from "src/servicios/servicios.service";
 
 @Controller("/")
 export class TurnosController {
   constructor(
     private readonly turnosService: TurnosService,
     private clientes: ClientesService,
-    private usuarios: UsuariosService
+    private usuarios: UsuariosService,
+    private servicio: ServiciosService
   ) {}
 
   //TODO: arreglar mostrar estado de turnos
   @Get()
   @Render("turnos")
   async findAll() {
-    let pendienteBoolean: boolean = true;
-    let canceladoBoolean: boolean = true;
-    let realizadoBoolean: boolean = true;
     const turnos = (await this.turnosService.findAll()).map((turno) => {
       return {
         ...turno,
@@ -44,13 +43,12 @@ export class TurnosController {
     });
     const usuarios = await this.usuarios.findAll(); //busqueda de usuarios
     const clientes = await this.clientes.findAll(); //busqueda de clientes
+    const servicios = await this.servicio.findAll(); //busqueda de servicios
     return {
       turnos,
       clientes,
       usuarios,
-      pendienteBoolean,
-      canceladoBoolean,
-      realizadoBoolean,
+      servicios,
     };
   }
 
@@ -62,7 +60,7 @@ export class TurnosController {
 
   @Post("/create")
   @Redirect("/")
-  create(@Body() createTurnoDto: CreateTurnoDto) {
+  async create(@Body() createTurnoDto: CreateTurnoDto) {
     return this.turnosService.create(createTurnoDto);
   }
 
