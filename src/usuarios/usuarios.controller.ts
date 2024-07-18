@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Redirect,
   Render,
 } from "@nestjs/common";
@@ -19,14 +20,18 @@ export class UsuariosController {
 
   @Get()
   @Render("usuariosAbm")
-  async findAll() {
+  async findAll(
+    @Query("success") success: boolean,
+    @Query("borrar") borrar: boolean,
+    @Query("actualizar") actualizar: boolean
+  ) {
     const users = await this.usuariosService.findAll();
     const tipos = TIPO_DNI;
-    return { users, tipos };
+    return { users, tipos, borrar, success, actualizar };
   }
 
   @Post("/create")
-  @Redirect("/usuarios")
+  @Redirect("/usuarios?success=true")
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     const edit: boolean = false;
     const user = this.usuariosService.create(createUsuarioDto);
@@ -45,13 +50,13 @@ export class UsuariosController {
   }
 
   @Post("/update/user/:id")
-  @Redirect("/usuarios")
+  @Redirect("/usuarios?actualizar=true")
   update(@Param("id") id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuariosService.update(+id, updateUsuarioDto);
   }
 
   @Get("/delete/user/:id")
-  @Redirect("/usuarios")
+  @Redirect("/usuarios?borrar=true")
   async remove(@Param("id") id: string) {
     return this.usuariosService.remove(+id);
   }
