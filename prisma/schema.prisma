@@ -53,7 +53,7 @@ model Turno {
   cliente_id    Int             @unique
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
-  estado        TURNO_ESTADOS
+  estado        TURNO_ESTADOS?
   TurnoServicio TurnoServicio[]
 }
 

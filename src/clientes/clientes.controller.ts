@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Redirect,
   Render,
 } from "@nestjs/common";
@@ -19,18 +20,21 @@ export class ClientesController {
 
   @Get()
   @Render("clientesAbm")
-  async findAll() {
+  async findAll(
+    @Query("success") success: boolean,
+    @Query("borrar") borrar: boolean,
+    @Query("actualizar") actualizar: boolean
+  ) {
     const clientes = await this.clientesService.findAll();
     const tipos = TIPO_DNI;
-    return { clientes, tipos };
+    return { clientes, tipos, borrar, success, actualizar };
   }
 
   @Post("/create")
-  @Redirect("/clientes")
+  @Redirect("/clientes?success=true")
   async create(@Body() createClienteDto: CreateClienteDto) {
-    const edit: boolean = false;
     const cliente = await this.clientesService.create(createClienteDto);
-    return { cliente, edit };
+    return { cliente };
   }
 
   @Get("/edit/cliente/:id")
@@ -44,14 +48,14 @@ export class ClientesController {
   }
 
   @Post("/update/cliente/:id")
-  @Redirect("/clientes")
+  @Redirect("/clientes?actualizar=true")
   update(@Param("id") id: string, @Body() updateClienteDto: UpdateClienteDto) {
-    return this.clientesService.update(+id, updateClienteDto);
+    this.clientesService.update(+id, updateClienteDto);
   }
 
   @Get("/delete/cliente/:id")
-  @Redirect("/clientes")
+  @Redirect("/clientes?borrar=true")
   async remove(@Param("id") id: string) {
-    return this.clientesService.remove(+id);
+    this.clientesService.remove(+id);
   }
 }
