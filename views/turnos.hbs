@@ -4,6 +4,13 @@
 <body>
 {{> aside  }}
 <main class="md:ml-64 h-auto pt-20"> <!-- Aca esta la pagina en si -->
+        {{!-- Alerta de creacion --}}
+        {{#if success }} {{>alertCreate  message="Turno creado con exito"}} {{/if}}
+        {{!-- Alerta de eliminacion --}}
+       {{#if borrar }} {{>alertDelete message="Turno eliminado con exito"}} {{/if}}
+        {{!-- Alerta de actualizacion --}}
+       {{#if actualizar }}  {{>alertUpdate message="Turno actualizado con exito"}} {{/if}}
+     {{!-- Formulario y Tabla --}}
     <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
         <div class="p-2 flex justify-between items-center px-4 rounded-t border-b dark:border-gray-600">
             <!-- Encabezado -->
@@ -23,7 +30,7 @@
             </button>
         </div>
 
-        <!--TODO: no se pudo concretar la vista de las validaciones-->
+        {{!-- TODO: no se pudo concretar la vista de las validaciones --}}
 
         <form class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900" action="/create"  method="post">
             <h2 class="text-xl pb-4 text-gray-900 dark:text-white">
@@ -107,7 +114,9 @@
                                 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {{#each servicios }}
+                            {{#if activo  }}
                             <option value="{{id}}">{{nombre}}</option>
+                            {{/if}}
                             {{/each}}
                         </select>
                   </div>  
@@ -216,7 +225,7 @@
                     </td>
                     <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div class="flex items-center">
-                            {{#if realizadoBoolean  }}
+                            {{#if realizadoBoolean}}
                             <div class="inline-block w-4 h-4 mr-2 bg-green-500 rounded-full">
                                 <div class="pl-5" >REALIZADO</div>
                             </div>

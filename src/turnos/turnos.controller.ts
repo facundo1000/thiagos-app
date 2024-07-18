@@ -2,20 +2,19 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Query,
   Redirect,
   Render,
 } from "@nestjs/common";
 import { ClientesService } from "src/clientes/clientes.service";
+import { ServiciosService } from "src/servicios/servicios.service";
 import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
 import { TurnosService } from "./turnos.service";
-import { ServiciosService } from "src/servicios/servicios.service";
 
 @Controller("/")
 export class TurnosController {
@@ -29,7 +28,11 @@ export class TurnosController {
   //TODO: arreglar mostrar estado de turnos
   @Get()
   @Render("turnos")
-  async findAll() {
+  async findAll(
+    @Query("success") success: boolean,
+    @Query("borrar") borrar: boolean,
+    @Query("actualizar") actualizar: boolean
+  ) {
     const turnos = (await this.turnosService.findAll()).map((turno) => {
       return {
         ...turno,
@@ -49,6 +52,9 @@ export class TurnosController {
       clientes,
       usuarios,
       servicios,
+      borrar,
+      success,
+      actualizar,
     };
   }
 
@@ -59,17 +65,18 @@ export class TurnosController {
   // }
 
   @Post("/create")
-  @Redirect("/")
+  @Redirect("/success=true")
   async create(@Body() createTurnoDto: CreateTurnoDto) {
     return this.turnosService.create(createTurnoDto);
   }
 
-  @Patch(":id")
+  @Post(":id")
   update(@Param("id") id: string, @Body() updateTurnoDto: UpdateTurnoDto) {
     return this.turnosService.update(+id, updateTurnoDto);
   }
 
-  @Delete(":id")
+  @Get("/delete/:id")
+  @Redirect("/borrar=true")
   remove(@Param("id") id: string) {
     return this.turnosService.remove(+id);
   }
