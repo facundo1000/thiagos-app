@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Redirect,
   Render,
 } from "@nestjs/common";
@@ -19,14 +20,18 @@ export class ServiciosController {
   //Funcion para buscar todos los servicios
   @Get()
   @Render("servicios")
-  async findAll() {
+  async findAll(
+    @Query("success") success: boolean,
+    @Query("borrar") borrar: boolean,
+    @Query("actualizar") actualizar: boolean
+  ) {
     const servicios = await this.serviciosService.findAll();
-    return { servicios };
+    return { servicios, borrar, success, actualizar };
   }
 
   //Funcion para crear servicio
   @Post("/create")
-  @Redirect("/servicios")
+  @Redirect("/servicios?success=true")
   async create(@Body() createServicioDto: CreateServicioDto) {
     const servicio = await this.serviciosService.create(createServicioDto);
     const edit: boolean = false;
@@ -45,7 +50,7 @@ export class ServiciosController {
 
   //Funcion para actualizar servicio
   @Post("/update/servicio/:id")
-  @Redirect("/servicios")
+  @Redirect("/servicios?actualizar=true")
   update(
     @Param("id") id: string,
     @Body() updateServicioDto: UpdateServicioDto
@@ -55,7 +60,7 @@ export class ServiciosController {
 
   //Funcion para eliminar servicio
   @Get("/delete/servicio/:id")
-  @Redirect("/servicios")
+  @Redirect("/servicios?borrar=true")
   remove(@Param("id") id: string) {
     this.serviciosService.remove(+id);
   }
