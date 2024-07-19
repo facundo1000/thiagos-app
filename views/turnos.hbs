@@ -5,11 +5,11 @@
 {{> aside  }}
 <main class="md:ml-64 h-auto pt-20"> <!-- Aca esta la pagina en si -->
         {{!-- Alerta de creacion --}}
-        {{#if success }} {{>alertCreate  message="Turno creado con exito"}} {{/if}}
+        {{#if success }} {{>alertCreate  message="Turno creado con exito" path="/"}} {{/if}}
         {{!-- Alerta de eliminacion --}}
-       {{#if borrar }} {{>alertDelete message="Turno eliminado con exito"}} {{/if}}
+       {{#if borrar }} {{>alertDelete message="Turno eliminado con exito" path="/"}} {{/if}}
         {{!-- Alerta de actualizacion --}}
-       {{#if actualizar }}  {{>alertUpdate message="Turno actualizado con exito"}} {{/if}}
+       {{#if actualizar }}  {{>alertUpdate message="Turno actualizado con exito" path="/"}} {{/if}}
      {{!-- Formulario y Tabla --}}
     <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
         <div class="p-2 flex justify-between items-center px-4 rounded-t border-b dark:border-gray-600">
@@ -50,7 +50,7 @@
                         <option value="">---Seleccionar Cliente---</option>
 
                         {{#each clientes}}
-                        <option value="{{dni}}">{{nombre}} {{apellido}} - DNI: {{dni}}</option>
+                        <option value="{{id}}">{{nombre}} {{apellido}} - DNI: {{dni}}</option>
                         {{/each}}
                     </select>
                     <label for="paciente"
@@ -99,17 +99,17 @@
                         <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
                      </svg>
                 </div>
-                <input type="time" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 
+                <input type="time" name="hora" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 
                 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                min="09:00" max="18:00" value="00:00" required />
+                min="07:00" max="22:00" value="{{ hora }}" required />
                 </div>
                 </div>
 
                 {{!-- selector de servicios conectado con el controlador --}}
                     <div class="relative z-0 w-full mb-6 group">
                         <label for="countries_multiple" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Servicios</label>
-                        <select multiple id="countries_multiple" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                        <select multiple id="countries_multiple" name="servicios" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
                                 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -125,7 +125,7 @@
             
                  {{!-- selector del cliente conectado con el controlador --}}
                 <div class="grid md:grid-cols-2 md:gap-6 mb-5">
-                    <select name="empleado" id="empleado"
+                    <select name="usuario" id="usuario"
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
                             border-0 border-b-2 border-gray-300 appearance-none dark:text-white 
                             dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 
@@ -134,10 +134,10 @@
                         <option value="">---Seleccionar Empleado---</option>
 
                         {{#each usuarios}}
-                        <option value="{{dni}}">{{nombre}} {{apellido}} - DNI: {{dni}}</option>
+                        <option value="{{id}}">{{nombre}} {{apellido}} - DNI: {{dni}}</option>
                         {{/each}}
                     </select>
-                    <label for="empleado"
+                    <label for="usuario"
                                class="peer-focus:font-medium  absolute text-sm text-gray-500 
                                dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 
                                origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
