@@ -15,6 +15,7 @@ async function bootstrap() {
   app.setViewEngine("hbs");
 
   hbs.registerPartials(join(__dirname, "..", "views", "partials"));
+  // hbs.registerHelper("formatDate", function (date: Date, format) {});
 
   await app.listen(3000);
 }

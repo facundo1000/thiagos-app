@@ -32,9 +32,10 @@
 
         {{!-- TODO: no se pudo concretar la vista de las validaciones --}}
 
-        <form class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900" action="/create"  method="post">
+        <form class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900" 
+        action="{{#if edit}}/update/turno/{{turno.id}}{{else}}/create{{/if}}"  method="post">
             <h2 class="text-xl pb-4 text-gray-900 dark:text-white">
-                Registrar nuevo turno
+               {{#if edit }} Actualizacion de {{else}}Registrar{{/if}} nuevo turno
             </h2>
 
 
@@ -50,7 +51,7 @@
                         <option value="">---Seleccionar Cliente---</option>
 
                         {{#each clientes}}
-                        <option value="{{id}}">{{nombre}} {{apellido}} - DNI: {{dni}}</option>
+                        <option value="{{id}}" >{{nombre}} {{apellido}} - DNI: {{dni}}</option>
                         {{/each}}
                     </select>
                     <label for="paciente"
@@ -72,7 +73,7 @@
                                border-0 border-b-2 border-gray-300 appearance-none dark:text-white 
                                dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none 
                                focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required/>
+                               placeholder="" value="{{ turno.fecha}}" required/>
                         <label for="fecha"
                                class="peer-focus:font-medium  absolute text-sm text-gray-500 
                                dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 
@@ -152,16 +153,19 @@
 
             <!--boton confirmar turno-->
             <button type="submit"
-                    class="text-white inline-flex items-center hover:bg-blue-800 focus:ring-4 
-                    focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 
-                    text-center bg-blue-600 dark:hover:bg-blue-600 dark:focus:ring-blue-800 ">
+                    class="{{#if edit }}text-white inline-flex items-center hover:bg-green-800 focus:ring-4 focus:outline-none 
+                    focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+                    bg-green-600 dark:hover:bg-green-600 dark:focus:ring-green-800   
+                    {{else}}text-white inline-flex items-center hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                    focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+                    bg-blue-600 dark:hover:bg-blue-600 dark:focus:ring-blue-800 {{/if}}">
                 <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                           d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                           clip-rule="evenodd"></path>
                 </svg>
-                Confirmar Turno
+                {{#if edit }}Editar{{else}}Confirmar{{/if}} Turno
             </button>
             <!--boton limpiar campos de turno-->
             <a href="/" type="submit" class="text-white inline-flex items-center 
@@ -245,7 +249,7 @@
 
                     {{!-- Boton para editar un turno --}}
                     <td class="px-4 py-2 font-medium flex flex-row text-gray-900 whitespace-nowrap dark:text-white">
-                        <a href="#" 
+                        <a href="/edit/turno/{{ id }}" 
                            class="mx-auto items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-white 
                            transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-700 
                            hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
