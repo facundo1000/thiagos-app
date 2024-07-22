@@ -26,6 +26,7 @@ export class TurnosController {
   ) {}
 
   //TODO: arreglar mostrar estado de turnos
+  //Funcion para mostrar todos los turnos y sus datos
   @Get()
   @Render("turnos")
   async findAll(
@@ -65,18 +66,19 @@ export class TurnosController {
   // }
 
   @Post("/create")
-  @Redirect("/success=true")
+  @Redirect("/?success=true")
   async create(@Body() createTurnoDto: CreateTurnoDto) {
     return this.turnosService.create(createTurnoDto);
   }
 
-  @Post(":id")
+  @Post("update/turno/:id")
+  @Redirect("/?actualizar=true")
   update(@Param("id") id: string, @Body() updateTurnoDto: UpdateTurnoDto) {
     return this.turnosService.update(+id, updateTurnoDto);
   }
 
   @Get("/delete/:id")
-  @Redirect("/borrar=true")
+  @Redirect("/?borrar=true")
   remove(@Param("id") id: string) {
     return this.turnosService.remove(+id);
   }

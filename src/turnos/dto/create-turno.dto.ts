@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Cliente, Usuario } from "@prisma/client";
+import { TURNO_ESTADOS } from "@prisma/client";
 
 /* eslint-disable prettier/prettier */
 export class CreateTurnoDto {
-  fecha: Date;
-  hora: Date;
-  usuario: Usuario;
-  cliente: Cliente;
+  fecha: string;
+  hora: string;
+  usuario: string;
+  cliente: string;
   activo: boolean;
+  estado: TURNO_ESTADOS;
+  servicios: string[];
 }
