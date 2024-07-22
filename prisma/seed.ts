@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
 import { PrismaClient, TIPO_DNI, TURNO_ESTADOS } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -81,16 +80,16 @@ async function main() {
   const turnos = await prisma.turno.createMany({
     data: [
       {
-        fecha: new Date(2024, 9, 27, 10),
-        hora: new Date(0, 0, 0, 10, 30),
+        fecha: new Date(2024, 9, 27),
+        hora: new Date(0, 0, 10, 30),
         usuario_id: 1,
         cliente_id: 1,
         estado: TURNO_ESTADOS.PENDIENTE,
         activo: true,
       },
       {
-        fecha: new Date(2024, 1, 10, 11),
-        hora: new Date(0, 0, 0, 11, 30),
+        fecha: new Date(2024, 1, 10),
+        hora: new Date(0, 0, 11, 33),
         cliente_id: 2,
         usuario_id: 2,
         estado: TURNO_ESTADOS.PENDIENTE,
