@@ -6,11 +6,11 @@
     {{> aside }}
     <main  class="md:ml-64 h-auto pt-20">
         {{!-- Alerta de creacion --}}
-        {{#if success }} {{>alertCreate  message="Usuario creado con exito"}} {{/if}}
+        {{#if success }} {{>alertCreate  message="Usuario creado con exito" path="/usuarios"}} {{/if}}
         {{!-- Alerta de eliminacion --}}
-       {{#if borrar }} {{>alertDelete message="Usuario eliminado con exito"}} {{/if}}
+       {{#if borrar }} {{>alertDelete message="Usuario eliminado con exito" path="/usuarios"}} {{/if}}
         {{!-- Alerta de actualizacion --}}
-       {{#if actualizar }}  {{>alertUpdate message="Usuario actualizado con exito"}} {{/if}}
+       {{#if actualizar }}  {{>alertUpdate message="Usuario actualizado con exito" path="/usuarios"}} {{/if}}
      {{!-- Formulario y Tabla --}}
       <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
 
