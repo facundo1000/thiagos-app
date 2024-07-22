@@ -3,19 +3,13 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { Turno, TURNO_ESTADOS } from "@prisma/client";
-import { ClientesService } from "src/clientes/clientes.service";
 import { ConnectorService } from "src/connector/connector.service";
-import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
 
 @Injectable()
 export class TurnosService {
-  constructor(
-    private repo: ConnectorService,
-    private usuario: UsuariosService,
-    private cliente: ClientesService
-  ) {}
+  constructor(private repo: ConnectorService) {}
 
   async findAll(): Promise<Turno[]> {
     return this.repo.turno.findMany({
@@ -44,14 +38,15 @@ export class TurnosService {
             connect: { id: +createTurnoDto.usuario },
           },
           TurnoServicio: {
-            connect: createTurnoDto.servicios.map((servicio) => ({
-              id: +servicio,
+            create: createTurnoDto.servicios.map((servicio) => ({
+              servicio: { connect: { id: +servicio } },
+              activo: true,
             })),
           },
         },
       })
       .catch((e) => {
-        console.error(e);
+        console.error(e); // Log the error
       });
   }
 

@@ -6,16 +6,16 @@
     {{> aside }}
     <main  class="md:ml-64 h-auto pt-20">
         {{!-- Alerta de creacion --}}
-        {{#if success }} {{>alertCreate  message="Servicio creado con exito"}} {{/if}}
+        {{#if success }} {{>alertCreate  message="Servicio creado con exito" path="/servicios"}} {{/if}}
         {{!-- Alerta de eliminacion --}}
-       {{#if borrar }} {{>alertDelete message="Servicio eliminado con exito"}} {{/if}}
+       {{#if borrar }} {{>alertDelete message="Servicio eliminado con exito" path="/servicios"}} {{/if}}
         {{!-- Alerta de actualizacion --}}
-       {{#if actualizar }}  {{>alertUpdate message="Servicio actualizado con exito"}} {{/if}}
+       {{#if actualizar }}  {{>alertUpdate message="Servicio actualizado con exito" path="/servicios"}} {{/if}}
      {{!-- Formulario y Tabla --}}
       <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
 
         <div class="p-2 flex justify-between items-center px-4 rounded-t border-b dark:border-gray-600">
-         <form action="{{#if edit}}/servicios/update/servicio/{{ servicio.id }}{{else}}icios/create{{/if}}"  
+         <form action="{{#if edit}}/servicios/update/servicio/{{ servicio.id }}{{else}}servicios/create{{/if}}"  
               method="post"
               class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
             <h2 class="text-xl pb-4 text-gray-900 dark:text-white">{{#if edit }}Actualizacion{{else}}Registro{{/if}} de Servicio</h2>
