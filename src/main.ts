@@ -16,8 +16,15 @@ async function bootstrap() {
 
   hbs.registerPartials(join(__dirname, "..", "views", "partials"));
 
+  // Helper para comparar valores y devolver un booleano true o false
+  //Utilizado para comparar si un valores de los selectores que devuelven un unico valor
   hbs.registerHelper("eq", function (a, b): boolean {
     return a === b;
+  });
+
+  // Helper para comparar valores dentro de un array y devolver un booleano true o false
+  hbs.registerHelper("isInArray", function (value, array): boolean {
+    return array.includes(value);
   });
 
   await app.listen(3000);
