@@ -64,8 +64,39 @@ export class TurnosService {
     return this.repo.turno.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTurnoDto: UpdateTurnoDto) {
-    return `This action updates a #${id} turno`;
+  // Funcion para actualizar un turno
+  async update(id: number, updateTurnoDto: UpdateTurnoDto) {
+    this.repo.turno
+      .update({
+        where: { id },
+        data: {
+          fecha: new Date(updateTurnoDto.fecha),
+          hora: this.formatTimeStringToDate(updateTurnoDto.hora),
+          estado: updateTurnoDto.estado,
+          cliente: {
+            connect: { id: +updateTurnoDto.cliente },
+          },
+          usuario: {
+            connect: { id: +updateTurnoDto.usuario },
+          },
+          TurnoServicio: {
+            deleteMany: { turno_id: id }, // Elimina todos los servicios del turno
+            create:
+              updateTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
+                ? updateTurnoDto.servicios.map((servicio) => ({
+                    servicio: { connect: { id: +servicio } }, // Conecta el servicio con el turno si son varios
+                    activo: true,
+                  }))
+                : {
+                    servicio: { connect: { id: +updateTurnoDto.servicios } }, // Conecta el servicio con el turno si es uno solo
+                    activo: true,
+                  },
+          },
+        },
+      })
+      .catch((e) => {
+        console.error(e); // Log the error
+      });
   }
 
   // Funcion para eliminar un turno
