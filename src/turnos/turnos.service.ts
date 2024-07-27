@@ -11,15 +11,18 @@ import { UpdateTurnoDto } from "./dto/update-turno.dto";
 export class TurnosService {
   constructor(private repo: ConnectorService) {}
 
+  // Funcion para mostrar todos los turnos y sus datos
   async findAll(): Promise<Turno[]> {
     return this.repo.turno.findMany({
       include: { cliente: true, usuario: true },
     });
   }
 
+  // Funcion para crear un turno
   async create(createTurnoDto: CreateTurnoDto): Promise<void> {
     console.log(createTurnoDto);
 
+    // Comprueba si el id del cliente y el usuario son números
     if (isNaN(+createTurnoDto.cliente) || isNaN(+createTurnoDto.usuario)) {
       throw new Error("El id del cliente y el usuario deben ser un número");
     }
@@ -38,10 +41,16 @@ export class TurnosService {
             connect: { id: +createTurnoDto.usuario },
           },
           TurnoServicio: {
-            create: createTurnoDto.servicios.map((servicio) => ({
-              servicio: { connect: { id: +servicio } },
-              activo: true,
-            })),
+            create:
+              createTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
+                ? createTurnoDto.servicios.map((servicio) => ({
+                    servicio: { connect: { id: +servicio } }, // Conecta el servicio con el turno si son varios
+                    activo: true,
+                  }))
+                : {
+                    servicio: { connect: { id: +createTurnoDto.servicios } }, // Conecta el servicio con el turno si es uno solo
+                    activo: true,
+                  },
           },
         },
       })
@@ -50,6 +59,7 @@ export class TurnosService {
       });
   }
 
+  // Funcion para mostrar un turno en particular
   findOne(id: number) {
     return this.repo.turno.findUnique({ where: { id } });
   }
@@ -58,8 +68,13 @@ export class TurnosService {
     return `This action updates a #${id} turno`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} turno`;
+  // Funcion para eliminar un turno
+  async remove(id: number): Promise<void> {
+    const turno = this.repo.turno.update({
+      where: { id },
+      data: { activo: false },
+    });
+    console.log(`Turno ${(await turno).id} eliminado`); //Log de usuario eliminado
   }
 
   formatTimeStringToDate(timeString: string): Date {

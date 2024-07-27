@@ -9,6 +9,7 @@ import {
   Redirect,
   Render,
 } from "@nestjs/common";
+import { format } from "date-fns";
 import { ClientesService } from "src/clientes/clientes.service";
 import { ServiciosService } from "src/servicios/servicios.service";
 import { UsuariosService } from "src/usuarios/usuarios.service";
@@ -38,11 +39,8 @@ export class TurnosController {
       return {
         ...turno,
         //formateo de fecha y hora
-        fecha: new Date(turno.fecha).toLocaleDateString(),
-        hora: new Date(turno.hora).toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        fecha: format(turno.fecha, "dd-MM-yyyy"),
+        hora: format(turno.hora, "HH:mm a"),
       };
     });
     const usuarios = await this.usuarios.findAll(); //busqueda de usuarios
@@ -68,20 +66,44 @@ export class TurnosController {
       return {
         ...turno,
         //formateo de fecha y hora
-        fecha: new Date(turno.fecha).toLocaleDateString(),
-        hora: new Date(turno.hora).toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        fecha: format(turno.fecha, "dd-MM-yyyy"),
+        hora: format(turno.hora, "HH:mm a"),
       };
     });
-    const turno = await this.turnosService.findOne(+id);
+    const turno = await this.turnosService.findOne(+id).then((turno) => {
+      return {
+        ...turno,
+        //formateo de fecha y hora
+        fecha: format(turno.fecha, "yyyy-MM-dd"),
+        hora: format(turno.hora, "HH:mm"),
+      };
+    });
+
+    //Servicios seleccionados
+    const serviciosSelected = await this.turnosService
+      .findOne(+id)
+      .TurnoServicio()
+      .then((servicios) => {
+        return servicios.map((servicio) => {
+          return servicio.servicio_id;
+        });
+      });
+
     const usuarios = await this.usuarios.findAll(); //busqueda de usuarios
     const clientes = await this.clientes.findAll(); //busqueda de clientes
     const servicios = await this.servicio.findAll(); //busqueda de servicios
     const edit: boolean = true;
-    console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
-    return { turnos, turno, usuarios, clientes, servicios, edit };
+    // console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
+    console.log(turno);
+    return {
+      turnos,
+      turno,
+      usuarios,
+      clientes,
+      servicios,
+      edit,
+      serviciosSelected,
+    };
   }
 
   //Funcion para crear un turno
@@ -100,7 +122,7 @@ export class TurnosController {
   }
 
   //Funcion para borrar un turno
-  @Get("/delete/:id")
+  @Get("/delete/turno/:id")
   @Redirect("/?borrar=true")
   remove(@Param("id") id: string) {
     return this.turnosService.remove(+id);
