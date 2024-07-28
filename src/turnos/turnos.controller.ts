@@ -43,6 +43,7 @@ export class TurnosController {
         hora: format(turno.hora, "HH:mm a"),
       };
     });
+
     const usuarios = await this.usuarios.findAll(); //busqueda de usuarios
     const clientes = await this.clientes.findAll(); //busqueda de clientes
     const servicios = await this.servicio.findAll(); //busqueda de servicios
@@ -58,7 +59,6 @@ export class TurnosController {
   }
 
   //Funcion para mostrar un turno en particular
-  //TODO: acciones de editar
   @Get("edit/turno/:id")
   @Render("turnos")
   async findOne(@Param("id") id: string) {
@@ -114,10 +114,12 @@ export class TurnosController {
   }
 
   //Funcion para actualizar un turno
-  //TODO: generar acciones de actualizar
   @Post("update/turno/:id")
   @Redirect("/?actualizar=true")
-  update(@Param("id") id: string, @Body() updateTurnoDto: UpdateTurnoDto) {
+  async update(
+    @Param("id") id: string,
+    @Body() updateTurnoDto: UpdateTurnoDto
+  ) {
     return this.turnosService.update(+id, updateTurnoDto);
   }
 
