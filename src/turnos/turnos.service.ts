@@ -105,6 +105,7 @@ export class TurnosService {
       where: { id },
       data: {
         activo: false,
+        estado: TURNO_ESTADOS.CANCELADO,
         TurnoServicio: {
           updateMany: { where: { turno_id: id }, data: { activo: false } }, // Desactiva todos los servicios asociados del turno
         },
