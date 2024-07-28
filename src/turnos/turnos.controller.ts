@@ -16,7 +16,6 @@ import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
 import { TurnosService } from "./turnos.service";
-import { TURNO_ESTADOS } from "@prisma/client";
 
 @Controller("/")
 export class TurnosController {
@@ -41,9 +40,6 @@ export class TurnosController {
         //formateo de fecha y hora
         fecha: format(turno.fecha, "dd-MM-yyyy"),
         hora: format(turno.hora, "HH:mm a"),
-        estado: turno.activo
-          ? TURNO_ESTADOS.PENDIENTE
-          : TURNO_ESTADOS.CANCELADO,
       };
     });
 
@@ -126,6 +122,13 @@ export class TurnosController {
     return {
       turno,
     };
+  }
+
+  //Funcion para aceptar un turno
+  @Get("accept/turno/:id")
+  @Redirect("/")
+  async acceptTurno(@Param("id") id: string) {
+    return this.turnosService.acceptTurno(+id);
   }
 
   //Funcion para crear un turno
