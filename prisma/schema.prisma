@@ -80,7 +80,6 @@ model Servicio {
 }
 
 //Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
-//TODO: orphan removal no olvidar; y cascade para las entidades relacionadas
 model TurnoServicio {
   id          Int      @id @default(autoincrement())
   turno_id    Int
