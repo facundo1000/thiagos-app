@@ -16,6 +16,7 @@ import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
 import { TurnosService } from "./turnos.service";
+import { TURNO_ESTADOS } from "@prisma/client";
 
 @Controller("/")
 export class TurnosController {
@@ -26,7 +27,6 @@ export class TurnosController {
     private servicio: ServiciosService
   ) {}
 
-  //TODO: arreglar mostrar estado de turnos
   //Funcion para mostrar todos los turnos y sus datos
   @Get()
   @Render("turnos")
@@ -41,6 +41,9 @@ export class TurnosController {
         //formateo de fecha y hora
         fecha: format(turno.fecha, "dd-MM-yyyy"),
         hora: format(turno.hora, "HH:mm a"),
+        estado: turno.activo
+          ? TURNO_ESTADOS.PENDIENTE
+          : TURNO_ESTADOS.CANCELADO,
       };
     });
 
@@ -103,6 +106,25 @@ export class TurnosController {
       servicios,
       edit,
       serviciosSelected,
+    };
+  }
+
+  //Funcion para mostrar los detalles de un turno especifico
+  @Get("details/turno/:id")
+  @Render("detalleTurno")
+  async showDetails(@Param("id") id: string) {
+    const turno = await this.turnosService
+      .findTurnoByClienteId(+id)
+      .then((turno) => {
+        return {
+          ...turno,
+          //formateo de fecha y hora
+          fecha: format(turno.fecha, "dd-MM-yyyy"),
+          hora: format(turno.hora, "HH:mm a"),
+        };
+      });
+    return {
+      turno,
     };
   }
 
