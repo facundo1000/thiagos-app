@@ -61,7 +61,17 @@ export class TurnosService {
 
   // Funcion para mostrar un turno en particular
   findOne(id: number) {
-    return this.repo.turno.findUnique({ where: { id } });
+    return this.repo.turno.findUnique({
+      where: { id },
+    });
+  }
+
+  // Funcion para buscar el turno de un cliente especifico
+  async findTurnoByClienteId(id: number): Promise<Turno> {
+    return this.repo.turno.findUnique({
+      where: { id: id },
+      include: { cliente: true, usuario: true, TurnoServicio: true },
+    });
   }
 
   // Funcion para actualizar un turno
