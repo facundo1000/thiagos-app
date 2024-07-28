@@ -103,7 +103,12 @@ export class TurnosService {
   async remove(id: number): Promise<void> {
     const turno = this.repo.turno.update({
       where: { id },
-      data: { activo: false },
+      data: {
+        activo: false,
+        TurnoServicio: {
+          updateMany: { where: { turno_id: id }, data: { activo: false } }, // Desactiva todos los servicios asociados del turno
+        },
+      },
     });
     console.log(`Turno ${(await turno).id} eliminado`); //Log de usuario eliminado
   }
