@@ -252,17 +252,17 @@
                     </td>
                     <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div class="flex items-center">
-                            {{#if realizadoBoolean}}
+                            {{#if (eq estado "REALIZADO")}}
                             <div class="inline-block w-4 h-4 mr-2 bg-green-500 rounded-full">
                                 <div class="pl-5" >REALIZADO</div>
                             </div>
                             {{/if}}
-                            {{#if pendienteBoolean}}
+                            {{#if (eq estado "PENDIENTE")}}
                             <div class="inline-block w-4 h-4 mr-2 bg-yellow-500 rounded-full">
                                 <div class="pl-5">PENDIENTE</div>
                             </div>
                             {{/if}}
-                            {{#if canceladoBoolean}}
+                            {{#if (eq estado "CANCELADO")}}
                             <div  class="inline-block w-4 h-4 mr-2 bg-red-600 rounded-full">
                                 <div class="pl-5">CANCELADO</div>
                             </div>
