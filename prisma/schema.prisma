@@ -50,10 +50,10 @@ model Turno {
   hora          DateTime        @db.Time(3)
   usuario_id    Int
   usuario       Usuario         @relation(fields: [usuario_id], references: [id], onUpdate: Cascade)
-  cliente_id    Int             @unique
+  cliente_id    Int
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
-  estado        TURNO_ESTADOS
+  estado        TURNO_ESTADOS?
   TurnoServicio TurnoServicio[]
 }
 
@@ -66,7 +66,7 @@ model Cliente {
   email    String    @unique
   telefono BigInt
   activo   Boolean?
-  Turno    Turno?
+  Turno    Turno[]
 }
 
 model Servicio {
@@ -80,7 +80,6 @@ model Servicio {
 }
 
 //Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
-//TODO: orphan removal no olvidar; y cascade para las entidades relacionadas
 model TurnoServicio {
   id          Int      @id @default(autoincrement())
   turno_id    Int
