@@ -59,6 +59,14 @@ export class TurnosService {
       });
   }
 
+  // Funcion para aceptar un turno
+  async acceptTurno(id: number): Promise<Turno> {
+    return this.repo.turno.update({
+      where: { id },
+      data: { estado: TURNO_ESTADOS.REALIZADO, activo: false },
+    });
+  }
+
   // Funcion para mostrar un turno en particular
   findOne(id: number) {
     return this.repo.turno.findUnique({
