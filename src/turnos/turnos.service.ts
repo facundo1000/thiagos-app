@@ -63,7 +63,13 @@ export class TurnosService {
   async acceptTurno(id: number): Promise<Turno> {
     return this.repo.turno.update({
       where: { id },
-      data: { estado: TURNO_ESTADOS.REALIZADO, activo: false },
+      data: {
+        estado: TURNO_ESTADOS.REALIZADO,
+        activo: false,
+        TurnoServicio: {
+          updateMany: { where: { turno_id: id }, data: { activo: true } },
+        },
+      },
     });
   }
 
