@@ -6,8 +6,7 @@
   "private": true,
   "license": "MIT",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts",
-   "type": "module"
+    "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
     "build": "nest build tsc && copyfiles -u 1 src/views/**/* dist/views",
