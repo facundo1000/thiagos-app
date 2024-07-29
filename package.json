@@ -6,16 +6,16 @@
   "private": true,
   "license": "MIT",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts",
-   "type": "module"
+    "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
-    "build": "nest build tsc && copyfiles -u 1 src/views/**/* dist/views",
+    "build": "nest build",
+    "copyfiles": "copyfiles -u 1 src/views/**/* dist/views",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -38,7 +38,8 @@
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "string-width": "^7.2.0",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "wrap-ansi": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
