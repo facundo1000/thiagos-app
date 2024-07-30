@@ -32,7 +32,15 @@ export class TurnosService {
       .create({
         data: {
           fecha: new Date(createTurnoDto.fecha),
-          hora: this.formatTimeStringToDate(createTurnoDto.hora),
+          hora: new Date(
+            Date.UTC(
+              0,
+              0,
+              0,
+              +createTurnoDto.hora.split(":")[0],
+              +createTurnoDto.hora.split(":")[1]
+            )
+          ), // Convierte la hora en un objeto Date
           activo: true,
           estado: TURNO_ESTADOS.PENDIENTE,
           cliente: {
@@ -96,7 +104,15 @@ export class TurnosService {
         where: { id },
         data: {
           fecha: new Date(updateTurnoDto.fecha),
-          hora: this.formatTimeStringToDate(updateTurnoDto.hora),
+          hora: new Date(
+            Date.UTC(
+              0,
+              0,
+              0,
+              +updateTurnoDto.hora.split(":")[0],
+              +updateTurnoDto.hora.split(":")[1]
+            )
+          ), // Convierte la hora en un objeto Date
           estado: updateTurnoDto.estado,
           cliente: {
             connect: { id: +updateTurnoDto.cliente },
@@ -137,18 +153,5 @@ export class TurnosService {
       },
     });
     console.log(`Turno ${(await turno).id} eliminado`); //Log de usuario eliminado
-  }
-
-  formatTimeStringToDate(timeString: string): Date {
-    // Split the time string into hours and minutes
-    const [hours, minutes] = timeString.split(":").map(Number);
-
-    // Create a new Date object for the current date
-    const date = new Date(0, 0, 0, hours, minutes);
-
-    // Set the hours and minutes from the time string
-    // date.setHours(hours, minutes);
-
-    return date;
   }
 }

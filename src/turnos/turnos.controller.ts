@@ -39,8 +39,18 @@ export class TurnosController {
       return {
         ...turno,
         //formateo de fecha y hora
-        fecha: format(turno.fecha, "dd-MM-yyyy"),
-        hora: format(turno.hora, "HH:mm a"),
+        fecha: turno.fecha
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("-"),
+        hora: turno.hora
+          .toISOString()
+          .split("T")[1]
+          .split(":")
+          .slice(0, 2)
+          .join(":"),
       };
     });
 
@@ -67,16 +77,31 @@ export class TurnosController {
       return {
         ...turno,
         //formateo de fecha y hora
-        fecha: format(turno.fecha, "dd-MM-yyyy"),
-        hora: format(turno.hora, "HH:mm a"),
+        fecha: new Date(turno.fecha)
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("-"),
+        hora: turno.hora
+          .toISOString()
+          .split("T")[1]
+          .split(":")
+          .slice(0, 2)
+          .join(":"),
       };
     });
     const turno = await this.turnosService.findOne(+id).then((turno) => {
       return {
         ...turno,
         //formateo de fecha y hora
-        fecha: format(turno.fecha, "yyyy-MM-dd"),
-        hora: format(turno.hora, "HH:mm"),
+        fecha: new Date(turno.fecha).toISOString().split("T")[0],
+        hora: turno.hora
+          .toISOString()
+          .split("T")[1]
+          .split(":")
+          .slice(0, 2)
+          .join(":"),
       };
     });
 
@@ -94,7 +119,7 @@ export class TurnosController {
     const clientes = await this.clientes.findAll(); //busqueda de clientes
     const servicios = await this.servicio.findAll(); //busqueda de servicios
     const edit: boolean = true;
-    // console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
+    console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
     console.log(turno);
     return {
       turnos,
@@ -107,7 +132,7 @@ export class TurnosController {
     };
   }
 
-  //Funcion para mostrar los detalles de un turno especifico
+  //Funcion para mostrar los detalles de un turno especifico - NO IMPLEMENTADA
   @Get("details/turno/:id")
   @Render("detalleTurno")
   async showDetails(@Param("id") id: string) {
@@ -137,6 +162,8 @@ export class TurnosController {
   @Post("/create")
   @Redirect("/?success=true")
   async create(@Body() createTurnoDto: CreateTurnoDto) {
+    console.log(createTurnoDto.hora);
+    console.log(typeof createTurnoDto.hora);
     return this.turnosService.create(createTurnoDto);
   }
 
