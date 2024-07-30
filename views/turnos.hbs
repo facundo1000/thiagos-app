@@ -255,6 +255,8 @@
                     <td class="{{#if activo }}px-6 py-3{{else}}px-6 py-3 line-through{{/if}}">
                         {{ hora }} 
                     </td>
+                    
+                    {{!-- Valor de estado del turno --}}
                     <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div class="flex items-center">
                             {{#if (eq estado "REALIZADO")}}
@@ -274,7 +276,8 @@
                             {{/if}}
                         </div>
                     </td>
-                    
+
+                    {{!-- servicios asociados al turno --}}
                     <td class="{{#if activo }}px-6 py-3{{else}}px-6 py-3 line-through{{/if}}">
                     {{#each TurnoServicio}}                     
                          <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 
