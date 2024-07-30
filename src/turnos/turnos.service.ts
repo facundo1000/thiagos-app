@@ -14,6 +14,7 @@ export class TurnosService {
   // Funcion para mostrar todos los turnos y sus datos
   async findAll(): Promise<Turno[]> {
     return this.repo.turno.findMany({
+      orderBy: { estado: "asc" },
       include: { cliente: true, usuario: true },
     });
   }
