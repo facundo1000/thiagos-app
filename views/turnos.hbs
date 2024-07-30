@@ -6,6 +6,8 @@
 <main class="md:ml-64 h-auto pt-20"> <!-- Aca esta la pagina en si -->
         {{!-- Alerta de creacion --}}
         {{#if success }} {{>alertCreate  message="Turno creado con exito" path="/"}} {{/if}}
+        {{!-- Alerta de realizacion --}}
+        {{#if realizado }} {{>alertCreate  message="TURNO REALIZADO" path="/"}} {{/if}}
         {{!-- Alerta de eliminacion --}}
        {{#if borrar }} {{>alertDelete message="Turno eliminado con exito" path="/"}} {{/if}}
         {{!-- Alerta de actualizacion --}}
