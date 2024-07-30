@@ -15,7 +15,11 @@ export class TurnosService {
   async findAll(): Promise<Turno[]> {
     return this.repo.turno.findMany({
       orderBy: { estado: "asc" },
-      include: { cliente: true, usuario: true },
+      include: {
+        cliente: true,
+        usuario: true,
+        TurnoServicio: { include: { servicio: true } },
+      },
     });
   }
 
@@ -138,6 +142,13 @@ export class TurnosService {
       .catch((e) => {
         console.error(e); // Log the error
       });
+  }
+
+  // Funcion para buscar los servicios de un turno
+  async findServiciosByTurno() {
+    return this.repo.turno.findMany({
+      include: { TurnoServicio: true },
+    });
   }
 
   // Funcion para eliminar un turno
