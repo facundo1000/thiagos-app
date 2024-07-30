@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Module } from "@nestjs/common";
-import { ClientesService } from "./clientes.service";
-import { ClientesController } from "./clientes.controller";
 import { ConnectorModule } from "src/connector/connector.module";
+import { ClientesController } from "./clientes.controller";
+import { ClientesService } from "./clientes.service";
 
 @Module({
   controllers: [ClientesController],

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { CreateClienteDto } from "./dto/create-cliente.dto";
 import { UpdateClienteDto } from "./dto/update-cliente.dto";
 import { ConnectorService } from "src/connector/connector.service";
@@ -20,8 +20,13 @@ export class ClientesService {
     return this.repo.cliente.findUnique({ where: { id } });
   }
 
+  //Funcion para buscar cliente por dni
+  async findByDni(dni: number): Promise<Cliente> {
+    return this.repo.cliente.findUnique({ where: { dni } });
+  }
+
   //Funcion para crear cliente
-  async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
+  async create(createClienteDto: CreateClienteDto) {
     const transformCliente = {
       ...createClienteDto,
       dni: +createClienteDto.dni,

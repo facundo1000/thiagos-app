@@ -32,7 +32,8 @@ export class TurnosController {
   async findAll(
     @Query("success") success: boolean,
     @Query("borrar") borrar: boolean,
-    @Query("actualizar") actualizar: boolean
+    @Query("actualizar") actualizar: boolean,
+    @Query("realizado") realizado: boolean
   ) {
     const turnos = (await this.turnosService.findAll()).map((turno) => {
       return {
@@ -54,6 +55,7 @@ export class TurnosController {
       borrar,
       success,
       actualizar,
+      realizado,
     };
   }
 
@@ -126,7 +128,7 @@ export class TurnosController {
 
   //Funcion para aceptar un turno
   @Get("accept/turno/:id")
-  @Redirect("/")
+  @Redirect("/?realizado=true")
   async acceptTurno(@Param("id") id: string) {
     return this.turnosService.acceptTurno(+id);
   }
