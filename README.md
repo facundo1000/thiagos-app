@@ -16,31 +16,30 @@
 
 ## Description
 
-Proyecto de una aplicacion web para la materia Aplicaciones Web de la carrera Lic. en Sistemas de Informacion del 4to año.
+Proyecto integrador de una aplicacion web para la materia Aplicaciones Web de la carrera Lic. en Sistemas de Informacion del 4to año.
 
 Nombre: Thiago's App
+
+Thiagos's app es una aplicación web diseñada para la administración de usuarios, turnos, clientes, servicios de un local de peluqueria.
 
 ### Stack:
 - Nest.js
 - Handlebars (motor de plantillas)
 - Prisma ORM
+- Yarn
 
+### Instrucciones para utilizar la aplicación
+  - yarn instalado en el sistema.
+  - Docker instalado en el sistema.
+  
+1. Dentro del directorio principal ejecutar el siguiente comando desde la consola: ``docker compose up -d``
+- El cliente de la base de datos se encuentra en el puerto 9000.
+- Motor de base de datos: postgres
+- servidor: postgress
+- usuario: postgres
+- pass: admin
+2. Dentro del directorio principal ejectutar: ``yarn install``
+3. Luego ejecutar: ``yarn run start`` o ``yarn run start:dev`` si se desean hacer cambios mientras se esta ejecutando la aplicación.
 
-<!-- ## Installation
+- La aplicacion se encuentra en el puerto 3000.
 
-```bash
-$ yarn install
-```
-
-## Running the app
-
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-``` -->

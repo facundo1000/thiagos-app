@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Base de datos Postgres para la aplicación
+  db:
+    image: postgres:13
+    restart: always
+    container_name: postgress
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: peluqueria
+    networks:
+      - dbNet
+    ports:
+      - '5433:5432'
+
+  # Cliente web para administrar la base de datos
+  webAdmin:
+    image: adminer
+    container_name: adminer
+    restart: always
+    networks:
+      - dbNet
+    ports:
+      - "9000:8080"
+    depends_on:
+      - db
+
+networks:
+  dbNet:

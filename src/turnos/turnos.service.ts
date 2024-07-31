@@ -14,7 +14,12 @@ export class TurnosService {
   // Funcion para mostrar todos los turnos y sus datos
   async findAll(): Promise<Turno[]> {
     return this.repo.turno.findMany({
-      include: { cliente: true, usuario: true },
+      orderBy: { estado: "asc" },
+      include: {
+        cliente: true,
+        usuario: true,
+        TurnoServicio: { include: { servicio: true } },
+      },
     });
   }
 
@@ -31,7 +36,15 @@ export class TurnosService {
       .create({
         data: {
           fecha: new Date(createTurnoDto.fecha),
-          hora: this.formatTimeStringToDate(createTurnoDto.hora),
+          hora: new Date(
+            Date.UTC(
+              0,
+              0,
+              0,
+              +createTurnoDto.hora.split(":")[0],
+              +createTurnoDto.hora.split(":")[1]
+            )
+          ), // Convierte la hora en un objeto Date
           activo: true,
           estado: TURNO_ESTADOS.PENDIENTE,
           cliente: {
@@ -63,7 +76,13 @@ export class TurnosService {
   async acceptTurno(id: number): Promise<Turno> {
     return this.repo.turno.update({
       where: { id },
-      data: { estado: TURNO_ESTADOS.REALIZADO, activo: false },
+      data: {
+        estado: TURNO_ESTADOS.REALIZADO,
+        activo: false,
+        TurnoServicio: {
+          updateMany: { where: { turno_id: id }, data: { activo: true } },
+        },
+      },
     });
   }
 
@@ -89,7 +108,15 @@ export class TurnosService {
         where: { id },
         data: {
           fecha: new Date(updateTurnoDto.fecha),
-          hora: this.formatTimeStringToDate(updateTurnoDto.hora),
+          hora: new Date(
+            Date.UTC(
+              0,
+              0,
+              0,
+              +updateTurnoDto.hora.split(":")[0],
+              +updateTurnoDto.hora.split(":")[1]
+            )
+          ), // Convierte la hora en un objeto Date
           estado: updateTurnoDto.estado,
           cliente: {
             connect: { id: +updateTurnoDto.cliente },
@@ -117,6 +144,13 @@ export class TurnosService {
       });
   }
 
+  // Funcion para buscar los servicios de un turno
+  async findServiciosByTurno() {
+    return this.repo.turno.findMany({
+      include: { TurnoServicio: true },
+    });
+  }
+
   // Funcion para eliminar un turno
   async remove(id: number): Promise<void> {
     const turno = this.repo.turno.update({
@@ -130,18 +164,5 @@ export class TurnosService {
       },
     });
     console.log(`Turno ${(await turno).id} eliminado`); //Log de usuario eliminado
-  }
-
-  formatTimeStringToDate(timeString: string): Date {
-    // Split the time string into hours and minutes
-    const [hours, minutes] = timeString.split(":").map(Number);
-
-    // Create a new Date object for the current date
-    const date = new Date(0, 0, 0, hours, minutes);
-
-    // Set the hours and minutes from the time string
-    // date.setHours(hours, minutes);
-
-    return date;
   }
 }

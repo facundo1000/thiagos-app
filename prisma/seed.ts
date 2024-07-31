@@ -81,7 +81,7 @@ async function main() {
     data: [
       {
         fecha: new Date(2024, 9, 27),
-        hora: new Date(0, 0, 10, 30),
+        hora: new Date(Date.UTC(0, 0, 0, 10, 30)),
         usuario_id: 1,
         cliente_id: 1,
         estado: TURNO_ESTADOS.PENDIENTE,
@@ -89,7 +89,7 @@ async function main() {
       },
       {
         fecha: new Date(2024, 1, 10),
-        hora: new Date(0, 0, 11, 33),
+        hora: new Date(Date.UTC(0, 0, 0, 11, 33)),
         cliente_id: 2,
         usuario_id: 2,
         estado: TURNO_ESTADOS.PENDIENTE,
