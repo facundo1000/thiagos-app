@@ -27,3 +27,4 @@ EXPOSE 3000
 
 # Comando para correr la aplicación
 CMD ["yarn", "start:prod"]
+# CMD ["node", "-r", "esm", "dist/main.js"]
