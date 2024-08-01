@@ -6,10 +6,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: peluqueria-app
     ports:
       - "3000:3000"
     depends_on:
       - db
+    networks:
+      - dbNet
 
   # Base de datos Postgres para la aplicación
   db:
