@@ -5,26 +5,25 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copia los archivos de configuración de la aplicación
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 # Instala las dependencias
-RUN yarn install --frozen-lockfile
+RUN npm install
 
 # Copia el resto de los archivos de la aplicación
 COPY . .
 
 # Genera el Prisma client
-RUN npx prisma generate  
+RUN npx prisma generate
 
 # Compila la aplicación TypeScript y copia los archivos de vistas
-RUN yarn run build && yarn run copyfiles
+RUN npm run build && npm run copyfiles
 
 # Elimina las dependencias de desarrollo para reducir el tamaño de la imagen
-RUN yarn install --production --frozen-lockfile && yarn cache clean
+RUN npm prune --production && npm cache clean --force
 
 # Expone el puerto en el que la aplicación se ejecuta
 EXPOSE 3000
 
 # Comando para correr la aplicación
-CMD ["yarn", "start:prod"]
-# CMD ["node", "-r", "esm", "dist/main.js"]
+CMD ["node", "dist/main.js"]
