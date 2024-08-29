@@ -10,11 +10,11 @@ COPY package.json package-lock.json ./
 # Instala las dependencias
 RUN npm install
 
-# Genera el Prisma client
-RUN npx prisma generate
-
 # Copia el resto de los archivos de la aplicación
 COPY . .
+
+# Genera el Prisma client
+RUN npx prisma generate
 
 # Compila la aplicación TypeScript y copia los archivos de vistas
 RUN npm run build && npm run copyfiles
