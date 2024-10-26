@@ -26,10 +26,10 @@ Thiagos's app es una aplicación web diseñada para la administración de usuari
 - Nest.js
 - Handlebars (motor de plantillas)
 - Prisma ORM
-- Yarn
+- NPM
 
 ### Instrucciones para utilizar la aplicación
-  - yarn instalado en el sistema.
+  - npm instalado en el sistema.
   - Docker instalado en el sistema.
   
 1. Dentro del directorio principal ejecutar el siguiente comando desde la consola: ``docker compose up -d``
@@ -38,8 +38,8 @@ Thiagos's app es una aplicación web diseñada para la administración de usuari
 - servidor: postgress
 - usuario: postgres
 - pass: admin
-2. Dentro del directorio principal ejectutar: ``yarn install``
-3. Luego ejecutar: ``yarn run start`` o ``yarn run start:dev`` si se desean hacer cambios mientras se esta ejecutando la aplicación.
+2. Dentro del directorio principal ejectutar: ``npm install``
+3. Luego ejecutar: ``npm start`` o ``npm start dev`` si se desean hacer cambios mientras se esta ejecutando la aplicación.
 
 - La aplicacion se encuentra en el puerto 3000.
 

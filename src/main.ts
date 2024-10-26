@@ -30,6 +30,9 @@ async function bootstrap() {
     return array.includes(value);
   });
 
+
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
+console.log('Hello from the other side');
+
