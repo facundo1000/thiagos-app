@@ -20,7 +20,7 @@ RUN npm install prisma --save-dev
 RUN npm install @prisma/client
 
 # Instala el Prisma Migrate
-RUN npx prisma migrate dev --name init
+RUN npx prisma migrate
 
 # Genera el Prisma client
 RUN npx prisma generate
