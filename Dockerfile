@@ -5,7 +5,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copia los archivos de configuración de la aplicación
-COPY package.json package-lock.json ./
+COPY package.json pnpm-lock.yaml ./
 
 # Instala las dependencias
 RUN pnpm install
