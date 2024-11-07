@@ -13,7 +13,14 @@ RUN npm install
 # Copia el resto de los archivos de la aplicación
 COPY . .
 
+# Instala el Prisma
+RUN npm install prisma --save-dev
+
+# Instala el Prisma client
 RUN npm install @prisma/client
+
+# Instala el Prisma Migrate
+RUN npx prisma migrate dev --name init
 
 # Genera el Prisma client
 RUN npx prisma generate
