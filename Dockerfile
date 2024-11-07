@@ -26,4 +26,4 @@ RUN pnpm prune --production && pnpm cache clean --force
 EXPOSE 3000
 
 # Comando para correr la aplicación
-CMD ["node", "dist/main.js"]
+CMD ["pnpm", "dist/main.js"]
