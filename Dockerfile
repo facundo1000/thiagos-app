@@ -5,10 +5,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copia los archivos de configuración de la aplicación
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 
 # Instala las dependencias
-RUN pnpm install
+RUN npm install
 
 # Copia el resto de los archivos de la aplicación
 COPY . .
@@ -17,13 +17,13 @@ COPY . .
 RUN npx prisma generate
 
 # Compila la aplicación TypeScript y copia los archivos de vistas
-RUN pnpm run build && pnpm run copyfiles
+RUN npm run build && npm run copyfiles
 
 # Elimina las dependencias de desarrollo para reducir el tamaño de la imagen
-RUN pnpm prune --production && pnpm cache clean --force
+RUN npm prune --production && npm cache clean --force
 
 # Expone el puerto en el que la aplicación se ejecuta
 EXPOSE 3000
 
 # Comando para correr la aplicación
-CMD ["pnpm", "dist/main.js"]
+CMD ["node", "dist/main.js"]
