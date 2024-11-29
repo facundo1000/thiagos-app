@@ -19,11 +19,11 @@ RUN npm install prisma --save-dev
 # Instala el Prisma client
 RUN npm install @prisma/client
 
-# Instala el Prisma Migrate
-RUN npx prisma migrate dev 
-
 # Genera el Prisma client
 RUN npx prisma generate
+
+# Instala el Prisma Migrate
+RUN npx prisma migrate dev 
 
 # Compila la aplicación TypeScript y copia los archivos de vistas
 RUN npm run build && npm run copyfiles
