@@ -13,7 +13,7 @@ export declare class TurnosService {
         id: number;
         fecha: Date;
         hora: Date;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+        estado: string;
         usuario_id: number;
         cliente_id: number;
     }, null, import("@prisma/client/runtime/library").DefaultArgs>;
@@ -22,7 +22,6 @@ export declare class TurnosService {
     findServiciosByTurno(): Promise<({
         TurnoServicio: {
             activo: boolean | null;
-            id: number;
             servicio_id: number;
             turno_id: number;
         }[];
@@ -31,7 +30,7 @@ export declare class TurnosService {
         id: number;
         fecha: Date;
         hora: Date;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+        estado: string;
         usuario_id: number;
         cliente_id: number;
     })[]>;

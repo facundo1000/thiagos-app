@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { PrismaClient, TIPO_DNI, TURNO_ESTADOS } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
+import { TIPO_DNI } from '../src/utils/TIPO_DNI';
+import { TURNOS_ESTADOS } from '../src/utils/TURNOS_ESTADOS';
 
 const prisma = new PrismaClient();
 
@@ -10,7 +12,7 @@ async function main() {
       {
         nombre: "Juan",
         apellido: "Perez",
-        tipo_dni: TIPO_DNI.DNI,
+        tipo_dni: "DNI",
         dni: 12345678,
         direccion: "Calle Falsa 123",
         email: "some@gmail.com",
@@ -23,7 +25,7 @@ async function main() {
       {
         nombre: "maria",
         apellido: "perez",
-        tipo_dni: TIPO_DNI.DNI,
+        tipo_dni: "DNI",
         dni: 222666333,
         direccion: "Calle Trucha 123",
         email: "some2@gmail.com",
@@ -84,7 +86,7 @@ async function main() {
         hora: new Date(Date.UTC(0, 0, 0, 10, 30)),
         usuario_id: 1,
         cliente_id: 1,
-        estado: TURNO_ESTADOS.PENDIENTE,
+        estado: TURNOS_ESTADOS.PENDIENTE,
         activo: true,
       },
       {
@@ -92,7 +94,7 @@ async function main() {
         hora: new Date(Date.UTC(0, 0, 0, 11, 33)),
         cliente_id: 2,
         usuario_id: 2,
-        estado: TURNO_ESTADOS.PENDIENTE,
+        estado: "PENDIENTE",
         activo: true,
       },
     ],

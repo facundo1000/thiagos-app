@@ -8,7 +8,7 @@ export declare class UsuariosController {
         users: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -21,12 +21,7 @@ export declare class UsuariosController {
             provincia: string;
             pais: string;
         }[];
-        tipos: {
-            DNI: "DNI";
-            PASAPORTE: "PASAPORTE";
-            LC: "LC";
-            LE: "LE";
-        };
+        tipos: any;
         borrar: boolean;
         success: boolean;
         actualizar: boolean;
@@ -35,7 +30,7 @@ export declare class UsuariosController {
         user: Promise<{
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -54,7 +49,7 @@ export declare class UsuariosController {
         user: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -70,7 +65,7 @@ export declare class UsuariosController {
         users: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -84,12 +79,7 @@ export declare class UsuariosController {
             pais: string;
         }[];
         edit: boolean;
-        tipos: {
-            DNI: "DNI";
-            PASAPORTE: "PASAPORTE";
-            LC: "LC";
-            LE: "LE";
-        };
+        tipos: any;
     }>;
     update(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<void>;
     remove(id: string): Promise<void>;

@@ -11,7 +11,7 @@ export declare class ClientesService {
     create(createClienteDto: CreateClienteDto): Promise<{
         nombre: string;
         apellido: string;
-        tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+        tipo_dni: string | null;
         dni: number;
         email: string;
         telefono: bigint;

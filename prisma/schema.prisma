@@ -9,28 +9,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum TURNO_ESTADOS {
-  PENDIENTE
-  REALIZADO
-  CANCELADO
-}
-
-enum TIPO_DNI {
-  DNI
-  PASAPORTE
-  LC
-  LE
 }
 
 model Usuario {
   id          Int       @id @default(autoincrement())
   nombre      String
   apellido    String
-  tipo_dni    TIPO_DNI?
+  tipo_dni    String
   dni         Int       @unique
   direccion   String
   ciudad      String
@@ -46,24 +33,24 @@ model Usuario {
 
 model Turno {
   id            Int             @id @default(autoincrement())
-  fecha         DateTime        @db.Date
-  hora          DateTime        @db.Time(3)
+  fecha         DateTime
+  hora          DateTime
   usuario_id    Int
   usuario       Usuario         @relation(fields: [usuario_id], references: [id], onUpdate: Cascade)
   cliente_id    Int
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
-  estado        TURNO_ESTADOS?
+  estado        String
   TurnoServicio TurnoServicio[]
 }
 
 model Cliente {
-  id       Int       @id @default(autoincrement())
+  id       Int      @id @default(autoincrement())
   nombre   String
   apellido String
-  tipo_dni TIPO_DNI?
-  dni      Int       @unique
-  email    String    @unique
+  tipo_dni String?
+  dni      Int      @unique
+  email    String   @unique
   telefono BigInt
   activo   Boolean?
   Turno    Turno[]

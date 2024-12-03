@@ -8,19 +8,14 @@ export declare class ClientesController {
         clientes: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
             activo: boolean | null;
             id: number;
         }[];
-        tipos: {
-            DNI: "DNI";
-            PASAPORTE: "PASAPORTE";
-            LC: "LC";
-            LE: "LE";
-        };
+        tipos: any;
         borrar: boolean;
         success: boolean;
         actualizar: boolean;
@@ -29,7 +24,7 @@ export declare class ClientesController {
         cliente: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
@@ -41,7 +36,7 @@ export declare class ClientesController {
         cliente: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
@@ -51,19 +46,14 @@ export declare class ClientesController {
         clientes: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
             activo: boolean | null;
             id: number;
         }[];
-        tipos: {
-            DNI: "DNI";
-            PASAPORTE: "PASAPORTE";
-            LC: "LC";
-            LE: "LE";
-        };
+        tipos: any;
         edit: boolean;
     }>;
     update(id: string, updateClienteDto: UpdateClienteDto): void;

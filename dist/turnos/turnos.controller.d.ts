@@ -16,14 +16,14 @@ export declare class TurnosController {
             hora: string;
             activo: boolean | null;
             id: number;
-            estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+            estado: string;
             usuario_id: number;
             cliente_id: number;
         }[];
         clientes: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
@@ -33,7 +33,7 @@ export declare class TurnosController {
         usuarios: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -65,7 +65,7 @@ export declare class TurnosController {
             hora: string;
             activo: boolean | null;
             id: number;
-            estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+            estado: string;
             usuario_id: number;
             cliente_id: number;
         }[];
@@ -74,14 +74,14 @@ export declare class TurnosController {
             hora: string;
             activo: boolean | null;
             id: number;
-            estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+            estado: string;
             usuario_id: number;
             cliente_id: number;
         };
         usuarios: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string;
             dni: number;
             email: string;
             telefono: bigint;
@@ -97,7 +97,7 @@ export declare class TurnosController {
         clientes: {
             nombre: string;
             apellido: string;
-            tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
+            tipo_dni: string | null;
             dni: number;
             email: string;
             telefono: bigint;
@@ -121,7 +121,7 @@ export declare class TurnosController {
             hora: string;
             activo: boolean | null;
             id: number;
-            estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+            estado: string;
             usuario_id: number;
             cliente_id: number;
         };
@@ -131,7 +131,7 @@ export declare class TurnosController {
         id: number;
         fecha: Date;
         hora: Date;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+        estado: string;
         usuario_id: number;
         cliente_id: number;
     }>;
