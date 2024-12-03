@@ -15,7 +15,7 @@ import { ServiciosService } from "src/servicios/servicios.service";
 import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
-import { TurnosService } from "./turnos.service";
+import { TurnosService } from './turnos.service';
 
 @Controller("/")
 export class TurnosController {
@@ -91,7 +91,7 @@ export class TurnosController {
           .join(":"),
       };
     });
-    const turno = await this.turnosService.findOne(+id).then((turno) => {
+    const turno = await this.turnosService.findOne(id).then((turno) => {
       return {
         ...turno,
         //formateo de fecha y hora
@@ -106,21 +106,20 @@ export class TurnosController {
     });
 
     //Servicios seleccionados
-    const serviciosSelected = await this.turnosService
-      .findOne(+id)
-      .TurnoServicio()
-      .then((servicios) => {
-        return servicios.map((servicio) => {
-          return servicio.servicio_id;
-        });
-      });
+    /**
+     * Se obtienen los servicios seleccionados en el turno
+     */
+    const serviciosSelected = await this.turnosService.getSelectedServicesByTurno(id);
+  
+      
+  
 
     const usuarios = await this.usuarios.findAll(); //busqueda de usuarios
     const clientes = await this.clientes.findAll(); //busqueda de clientes
     const servicios = await this.servicio.findAll(); //busqueda de servicios
     const edit: boolean = true;
     console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
-    console.log(turno);
+    // console.log(turno);
     return {
       turnos,
       turno,
@@ -137,7 +136,7 @@ export class TurnosController {
   @Render("detalleTurno")
   async showDetails(@Param("id") id: string) {
     const turno = await this.turnosService
-      .findTurnoByClienteId(+id)
+      .findTurnoByClienteId(id)
       .then((turno) => {
         return {
           ...turno,
@@ -155,7 +154,7 @@ export class TurnosController {
   @Get("accept/turno/:id")
   @Redirect("/?realizado=true")
   async acceptTurno(@Param("id") id: string) {
-    return this.turnosService.acceptTurno(+id);
+    return this.turnosService.acceptTurno(id);
   }
 
   //Funcion para crear un turno
@@ -174,13 +173,13 @@ export class TurnosController {
     @Param("id") id: string,
     @Body() updateTurnoDto: UpdateTurnoDto
   ) {
-    return this.turnosService.update(+id, updateTurnoDto);
+    return this.turnosService.update(id, updateTurnoDto);
   }
 
   //Funcion para borrar un turno
   @Get("/delete/turno/:id")
   @Redirect("/?borrar=true")
   remove(@Param("id") id: string) {
-    return this.turnosService.remove(+id);
+    return this.turnosService.remove(id);
   }
 }

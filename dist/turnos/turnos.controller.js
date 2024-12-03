@@ -78,7 +78,7 @@ let TurnosController = class TurnosController {
                     .join(":"),
             };
         });
-        const turno = await this.turnosService.findOne(+id).then((turno) => {
+        const turno = await this.turnosService.findOne(id).then((turno) => {
             return {
                 ...turno,
                 fecha: new Date(turno.fecha).toISOString().split("T")[0],
@@ -90,20 +90,12 @@ let TurnosController = class TurnosController {
                     .join(":"),
             };
         });
-        const serviciosSelected = await this.turnosService
-            .findOne(+id)
-            .TurnoServicio()
-            .then((servicios) => {
-            return servicios.map((servicio) => {
-                return servicio.servicio_id;
-            });
-        });
+        const serviciosSelected = await this.turnosService.getSelectedServicesByTurno(id);
         const usuarios = await this.usuarios.findAll();
         const clientes = await this.clientes.findAll();
         const servicios = await this.servicio.findAll();
         const edit = true;
         console.log(`Turno ${id} editado, redirigiendo a pagina principal ${edit}`);
-        console.log(turno);
         return {
             turnos,
             turno,
@@ -116,7 +108,7 @@ let TurnosController = class TurnosController {
     }
     async showDetails(id) {
         const turno = await this.turnosService
-            .findTurnoByClienteId(+id)
+            .findTurnoByClienteId(id)
             .then((turno) => {
             return {
                 ...turno,
@@ -129,7 +121,7 @@ let TurnosController = class TurnosController {
         };
     }
     async acceptTurno(id) {
-        return this.turnosService.acceptTurno(+id);
+        return this.turnosService.acceptTurno(id);
     }
     async create(createTurnoDto) {
         console.log(createTurnoDto.hora);
@@ -137,10 +129,10 @@ let TurnosController = class TurnosController {
         return this.turnosService.create(createTurnoDto);
     }
     async update(id, updateTurnoDto) {
-        return this.turnosService.update(+id, updateTurnoDto);
+        return this.turnosService.update(id, updateTurnoDto);
     }
     remove(id) {
-        return this.turnosService.remove(+id);
+        return this.turnosService.remove(id);
     }
 };
 exports.TurnosController = TurnosController;

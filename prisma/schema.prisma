@@ -83,7 +83,7 @@ model Servicio {
 
 //Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
 model TurnoServicio {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   turno_id    String   @db.Uuid
   turno       Turno    @relation(fields: [turno_id], references: [id])
   servicio_id String   @db.Uuid

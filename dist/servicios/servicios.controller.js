@@ -31,16 +31,16 @@ let ServiciosController = class ServiciosController {
         return { servicio, edit };
     }
     async edit(id) {
-        const servicio = await this.serviciosService.findOne(+id);
+        const servicio = await this.serviciosService.findOne(id);
         const servicios = await this.serviciosService.findAll();
         const edit = true;
         return { servicio, servicios, edit };
     }
     update(id, updateServicioDto) {
-        return this.serviciosService.update(+id, updateServicioDto);
+        return this.serviciosService.update(id, updateServicioDto);
     }
     remove(id) {
-        this.serviciosService.remove(+id);
+        this.serviciosService.remove(id);
     }
 };
 exports.ServiciosController = ServiciosController;

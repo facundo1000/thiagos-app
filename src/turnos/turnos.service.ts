@@ -82,11 +82,19 @@ export class TurnosService {
   }
 
   // Funcion para mostrar un turno en particular
-  findOne(id: string): Promise<Turno> {
+   findOne(id: string): Promise<Turno & { TurnoServicio: { servicio_id: string }[] }> {
     return this.repo.turno.findUnique({
       where: { id },
+      include: {  TurnoServicio: { include: { servicio: true } } },
     });
   }
+
+    // Function to get selected services by turno
+    async getSelectedServicesByTurno(id: string): Promise<string[]> {
+      const turno = await this.findOne(id);
+      return turno.TurnoServicio.map((turnoServicio) => turnoServicio.servicio_id);
+    }
+  
 
   // Funcion para buscar el turno de un cliente especifico
   async findTurnoByClienteId(id: string): Promise<Turno> {

@@ -74,7 +74,12 @@ let TurnosService = class TurnosService {
     findOne(id) {
         return this.repo.turno.findUnique({
             where: { id },
+            include: { TurnoServicio: { include: { servicio: true } } },
         });
+    }
+    async getSelectedServicesByTurno(id) {
+        const turno = await this.findOne(id);
+        return turno.TurnoServicio.map((turnoServicio) => turnoServicio.servicio_id);
     }
     async findTurnoByClienteId(id) {
         return this.repo.turno.findUnique({

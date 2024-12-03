@@ -3,7 +3,7 @@ import { ServiciosService } from "src/servicios/servicios.service";
 import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
-import { TurnosService } from "./turnos.service";
+import { TurnosService } from './turnos.service';
 export declare class TurnosController {
     private readonly turnosService;
     private clientes;
@@ -77,6 +77,9 @@ export declare class TurnosController {
             cliente_id: string;
             activo: boolean | null;
             estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
+            TurnoServicio: {
+                servicio_id: string;
+            }[];
         };
         usuarios: {
             id: string;
@@ -113,7 +116,7 @@ export declare class TurnosController {
             precio: number;
         }[];
         edit: boolean;
-        serviciosSelected: any;
+        serviciosSelected: string[];
     }>;
     showDetails(id: string): Promise<{
         turno: {
