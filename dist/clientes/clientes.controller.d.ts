@@ -13,7 +13,7 @@ export declare class ClientesController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         }[];
         tipos: {
             DNI: "DNI";
@@ -34,7 +34,7 @@ export declare class ClientesController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         };
     }>;
     edit(id: string): Promise<{
@@ -46,7 +46,7 @@ export declare class ClientesController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         };
         clientes: {
             nombre: string;
@@ -56,7 +56,7 @@ export declare class ClientesController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         }[];
         tipos: {
             DNI: "DNI";

@@ -6,7 +6,7 @@ export declare class ClientesService {
     private repo;
     constructor(repo: ConnectorService);
     findAll(): Promise<Cliente[]>;
-    findOne(id: number): Promise<Cliente>;
+    findOne(id: string): Promise<Cliente>;
     findByDni(dni: number): Promise<Cliente>;
     create(createClienteDto: CreateClienteDto): Promise<{
         nombre: string;
@@ -16,8 +16,8 @@ export declare class ClientesService {
         email: string;
         telefono: bigint;
         activo: boolean | null;
-        id: number;
+        id: string;
     }>;
-    update(id: number, updateClienteDto: UpdateClienteDto): Promise<void>;
-    remove(id: number): Promise<void>;
+    update(id: string, updateClienteDto: UpdateClienteDto): Promise<void>;
+    remove(id: string): Promise<void>;
 }

@@ -13,7 +13,7 @@ export declare class UsuariosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;
@@ -40,7 +40,7 @@ export declare class UsuariosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;
@@ -59,7 +59,7 @@ export declare class UsuariosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;
@@ -75,7 +75,7 @@ export declare class UsuariosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;

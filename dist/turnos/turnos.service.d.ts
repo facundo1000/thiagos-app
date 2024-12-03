@@ -7,33 +7,25 @@ export declare class TurnosService {
     constructor(repo: ConnectorService);
     findAll(): Promise<Turno[]>;
     create(createTurnoDto: CreateTurnoDto): Promise<void>;
-    acceptTurno(id: number): Promise<Turno>;
-    findOne(id: number): import("@prisma/client").Prisma.Prisma__TurnoClient<{
-        activo: boolean | null;
-        id: number;
-        fecha: Date;
-        hora: Date;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-        usuario_id: number;
-        cliente_id: number;
-    }, null, import("@prisma/client/runtime/library").DefaultArgs>;
-    findTurnoByClienteId(id: number): Promise<Turno>;
-    update(id: number, updateTurnoDto: UpdateTurnoDto): Promise<void>;
+    acceptTurno(id: string): Promise<Turno>;
+    findOne(id: string): Promise<Turno>;
+    findTurnoByClienteId(id: string): Promise<Turno>;
+    update(id: string, updateTurnoDto: UpdateTurnoDto): Promise<void>;
     findServiciosByTurno(): Promise<({
         TurnoServicio: {
-            activo: boolean | null;
             id: number;
-            servicio_id: number;
-            turno_id: number;
+            activo: boolean | null;
+            turno_id: string;
+            servicio_id: string;
         }[];
     } & {
-        activo: boolean | null;
-        id: number;
+        id: string;
         fecha: Date;
         hora: Date;
+        usuario_id: string;
+        cliente_id: string;
+        activo: boolean | null;
         estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-        usuario_id: number;
-        cliente_id: number;
     })[]>;
-    remove(id: number): Promise<void>;
+    remove(id: string): Promise<void>;
 }

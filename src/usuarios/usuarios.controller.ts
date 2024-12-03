@@ -41,7 +41,7 @@ export class UsuariosController {
   @Get("/edit/user/:id")
   @Render("usuariosAbm")
   async edit(@Param("id") id: string) {
-    const user = await this.usuariosService.findOne(+id);
+    const user = await this.usuariosService.findOne(id);
     const users = await this.usuariosService.findAll();
     const edit: boolean = true;
     const tipos = TIPO_DNI;
@@ -52,12 +52,12 @@ export class UsuariosController {
   @Post("/update/user/:id")
   @Redirect("/usuarios?actualizar=true")
   update(@Param("id") id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+    return this.usuariosService.update(id, updateUsuarioDto);
   }
 
   @Get("/delete/user/:id")
   @Redirect("/usuarios?borrar=true")
   async remove(@Param("id") id: string) {
-    return this.usuariosService.remove(+id);
+    return this.usuariosService.remove(id);
   }
 }

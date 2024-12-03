@@ -16,7 +16,7 @@ export class ClientesService {
   }
 
   //Funcion para buscar cliente por id
-  async findOne(id: number): Promise<Cliente> {
+  async findOne(id: string): Promise<Cliente> {
     return this.repo.cliente.findUnique({ where: { id } });
   }
 
@@ -37,7 +37,7 @@ export class ClientesService {
   }
 
   //Funcion para actualizar cliente
-  async update(id: number, updateClienteDto: UpdateClienteDto): Promise<void> {
+  async update(id: string, updateClienteDto: UpdateClienteDto): Promise<void> {
     //Parseo de datos de string a number
     const transformCliente = {
       ...updateClienteDto,
@@ -54,7 +54,7 @@ export class ClientesService {
   }
 
   //Funcion para eliminar cliente
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const cliente = this.repo.cliente.update({
       where: { id },
       data: { activo: false },

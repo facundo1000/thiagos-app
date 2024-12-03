@@ -27,11 +27,6 @@ export class TurnosService {
   async create(createTurnoDto: CreateTurnoDto): Promise<void> {
     console.log(createTurnoDto);
 
-    // Comprueba si el id del cliente y el usuario son números
-    if (isNaN(+createTurnoDto.cliente) || isNaN(+createTurnoDto.usuario)) {
-      throw new Error("El id del cliente y el usuario deben ser un número");
-    }
-
     this.repo.turno
       .create({
         data: {
@@ -48,20 +43,20 @@ export class TurnosService {
           activo: true,
           estado: TURNO_ESTADOS.PENDIENTE,
           cliente: {
-            connect: { id: +createTurnoDto.cliente },
+            connect: { id: createTurnoDto.cliente },
           },
           usuario: {
-            connect: { id: +createTurnoDto.usuario },
+            connect: { id: createTurnoDto.usuario },
           },
           TurnoServicio: {
             create:
               createTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
                 ? createTurnoDto.servicios.map((servicio) => ({
-                    servicio: { connect: { id: +servicio } }, // Conecta el servicio con el turno si son varios
+                    servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
                     activo: true,
                   }))
                 : {
-                    servicio: { connect: { id: +createTurnoDto.servicios } }, // Conecta el servicio con el turno si es uno solo
+                    servicio: { connect: { id: createTurnoDto.servicios[0] } }, // Conecta el servicio con el turno si es uno solo
                     activo: true,
                   },
           },
@@ -73,7 +68,7 @@ export class TurnosService {
   }
 
   // Funcion para aceptar un turno
-  async acceptTurno(id: number): Promise<Turno> {
+  async acceptTurno(id: string): Promise<Turno> {
     return this.repo.turno.update({
       where: { id },
       data: {
@@ -87,14 +82,14 @@ export class TurnosService {
   }
 
   // Funcion para mostrar un turno en particular
-  findOne(id: number) {
+  findOne(id: string): Promise<Turno> {
     return this.repo.turno.findUnique({
       where: { id },
     });
   }
 
   // Funcion para buscar el turno de un cliente especifico
-  async findTurnoByClienteId(id: number): Promise<Turno> {
+  async findTurnoByClienteId(id: string): Promise<Turno> {
     return this.repo.turno.findUnique({
       where: { id: id },
       include: { cliente: true, usuario: true, TurnoServicio: true },
@@ -102,7 +97,7 @@ export class TurnosService {
   }
 
   // Funcion para actualizar un turno
-  async update(id: number, updateTurnoDto: UpdateTurnoDto) {
+  async update(id: string, updateTurnoDto: UpdateTurnoDto) {
     this.repo.turno
       .update({
         where: { id },
@@ -119,21 +114,21 @@ export class TurnosService {
           ), // Convierte la hora en un objeto Date
           estado: updateTurnoDto.estado,
           cliente: {
-            connect: { id: +updateTurnoDto.cliente },
+            connect: { id: updateTurnoDto.cliente },
           },
           usuario: {
-            connect: { id: +updateTurnoDto.usuario },
+            connect: { id: updateTurnoDto.usuario },
           },
           TurnoServicio: {
             deleteMany: { turno_id: id }, // Elimina todos los servicios del turno
             create:
               updateTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
                 ? updateTurnoDto.servicios.map((servicio) => ({
-                    servicio: { connect: { id: +servicio } }, // Conecta el servicio con el turno si son varios
+                    servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
                     activo: true,
                   }))
                 : {
-                    servicio: { connect: { id: +updateTurnoDto.servicios } }, // Conecta el servicio con el turno si es uno solo
+                    servicio: { connect: { id: updateTurnoDto.servicios[0] } }, // Conecta el servicio con el turno si es uno solo
                     activo: true,
                   },
           },
@@ -152,7 +147,7 @@ export class TurnosService {
   }
 
   // Funcion para eliminar un turno
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const turno = this.repo.turno.update({
       where: { id },
       data: {

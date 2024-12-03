@@ -27,12 +27,12 @@ export class UsuariosService {
   }
 
   //Funcion para buscar usuario por id
-  async findOne(id: number): Promise<Usuario> {
+  async findOne(id: string): Promise<Usuario> {
     return this.repo.usuario.findUnique({ where: { id } });
   }
 
   //Funcion para actualizar usuario
-  async update(id: number, updateDto: UpdateUsuarioDto): Promise<void> {
+  async update(id: string, updateDto: UpdateUsuarioDto): Promise<void> {
     const updateUser = {
       ...updateDto,
       dni: +updateDto.dni,
@@ -46,7 +46,7 @@ export class UsuariosService {
   }
 
   //Funcion para eliminar usuario
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const user = this.repo.usuario.update({
       where: { id },
       data: { activo: false },

@@ -33,7 +33,7 @@ let UsuariosController = class UsuariosController {
         return { user, edit };
     }
     async edit(id) {
-        const user = await this.usuariosService.findOne(+id);
+        const user = await this.usuariosService.findOne(id);
         const users = await this.usuariosService.findAll();
         const edit = true;
         const tipos = client_1.TIPO_DNI;
@@ -41,10 +41,10 @@ let UsuariosController = class UsuariosController {
         return { user, users, edit, tipos };
     }
     update(id, updateUsuarioDto) {
-        return this.usuariosService.update(+id, updateUsuarioDto);
+        return this.usuariosService.update(id, updateUsuarioDto);
     }
     async remove(id) {
-        return this.usuariosService.remove(+id);
+        return this.usuariosService.remove(id);
     }
 };
 exports.UsuariosController = UsuariosController;

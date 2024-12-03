@@ -40,7 +40,7 @@ export class ClientesController {
   @Get("/edit/cliente/:id")
   @Render("clientesAbm")
   async edit(@Param("id") id: string) {
-    const cliente = await this.clientesService.findOne(+id);
+    const cliente = await this.clientesService.findOne(id);
     const clientes = await this.clientesService.findAll();
     const tipos = TIPO_DNI;
     const edit: boolean = true;
@@ -50,12 +50,12 @@ export class ClientesController {
   @Post("/update/cliente/:id")
   @Redirect("/clientes?actualizar=true")
   update(@Param("id") id: string, @Body() updateClienteDto: UpdateClienteDto) {
-    this.clientesService.update(+id, updateClienteDto);
+    this.clientesService.update(id, updateClienteDto);
   }
 
   @Get("/delete/cliente/:id")
   @Redirect("/clientes?borrar=true")
   async remove(@Param("id") id: string) {
-    this.clientesService.remove(+id);
+    this.clientesService.remove(id);
   }
 }
