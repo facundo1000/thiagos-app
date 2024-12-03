@@ -18,9 +18,13 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "src*": ["src/*"]
+      "src*": [
+        "src/*"
+      ]
     }
   },
   "include": [
-    "src/**/*", "src/views/**/*"]
+    "src/**/*",
+    "src/views/**/*",
+  ]
 }

@@ -68,22 +68,6 @@ async function main() {
     }),
   ]);
 
-  // Servicios
-  // const servicios2 = await prisma.servicio.createMany({
-  //   data: [
-  //     {
-  //       nombre: "corte de pelo",
-  //       precio: 1500,
-  //       activo: true,
-  //     },
-  //     {
-  //       nombre: "depilacion",
-  //       precio: 1800,
-  //       activo: true,
-  //     },
-  //   ],
-  // });
-
   const servicios = await Promise.all([
     prisma.servicio.create({
       data: {
@@ -100,28 +84,6 @@ async function main() {
       },
     }),
   ]);
-
-  
-  // const turnos2 = await prisma.turno.createMany({
-  //   data: [
-  //     {
-  //       fecha: new Date(2024, 9, 27),
-  //       hora: new Date(Date.UTC(0, 0, 0, 10, 30)),
-  //       usuario_id: registros[0].id ,
-  //       cliente_id: clientes[0].id,
-  //       estado: TURNO_ESTADOS.PENDIENTE,
-  //       activo: true,
-  //     },
-  //     {
-  //       fecha: new Date(2024, 1, 10),
-  //       hora: new Date(Date.UTC(0, 0, 0, 11, 33)),
-  //       cliente_id: clientes[1].id,
-  //       usuario_id: registros[1].id ,
-  //       estado: TURNO_ESTADOS.PENDIENTE,
-  //       activo: true,
-  //     },
-  //   ],
-  // });
 
   //Turnos
   const turnos = await Promise.all([
