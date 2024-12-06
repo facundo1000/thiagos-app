@@ -88,6 +88,7 @@ let TurnosService = class TurnosService {
         });
     }
     async update(id, updateTurnoDto) {
+        console.log(updateTurnoDto.servicios);
         this.repo.turno
             .update({
             where: { id },
@@ -103,15 +104,15 @@ let TurnosService = class TurnosService {
                 },
                 TurnoServicio: {
                     deleteMany: { turno_id: id },
-                    create: updateTurnoDto.servicios.length > 1
-                        ? updateTurnoDto.servicios.map((servicio) => ({
+                    create: (Array.isArray(updateTurnoDto.servicios)) ?
+                        updateTurnoDto.servicios.map((servicio) => ({
                             servicio: { connect: { id: servicio } },
                             activo: true,
-                        }))
-                        : {
-                            servicio: { connect: { id: updateTurnoDto.servicios[0] } },
+                        })) :
+                        {
+                            servicio: { connect: { id: updateTurnoDto.servicios } },
                             activo: true,
-                        },
+                        }
                 },
             },
         })

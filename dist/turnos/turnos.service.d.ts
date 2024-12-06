@@ -1,7 +1,7 @@
 import { Turno } from "@prisma/client";
 import { ConnectorService } from "src/connector/connector.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
-import { UpdateTurnoDto } from "./dto/update-turno.dto";
+import { UpdateTurnoDto } from './dto/update-turno.dto';
 export declare class TurnosService {
     private repo;
     constructor(repo: ConnectorService);
@@ -18,19 +18,19 @@ export declare class TurnosService {
     update(id: string, updateTurnoDto: UpdateTurnoDto): Promise<void>;
     findServiciosByTurno(): Promise<({
         TurnoServicio: {
-            activo: boolean | null;
             id: string;
-            servicio_id: string;
+            activo: boolean | null;
             turno_id: string;
+            servicio_id: string;
         }[];
     } & {
-        activo: boolean | null;
         id: string;
         fecha: Date;
         hora: Date;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
         usuario_id: string;
         cliente_id: string;
+        activo: boolean | null;
+        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
     })[]>;
     remove(id: string): Promise<void>;
 }

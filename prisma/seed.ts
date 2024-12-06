@@ -5,8 +5,6 @@ import { PrismaClient, TIPO_DNI, TURNO_ESTADOS } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-
-  //TODO: agregar uuid a todas las tablas, FUNCIONA PARA USUARIOS y TURNOS, y la relacion entre estos.
   // Create usuarios and obtain their ids
   const registros = await Promise.all([
     prisma.usuario.create({

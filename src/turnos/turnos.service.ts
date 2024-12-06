@@ -5,11 +5,11 @@ import { Injectable } from "@nestjs/common";
 import { Turno, TURNO_ESTADOS } from "@prisma/client";
 import { ConnectorService } from "src/connector/connector.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
-import { UpdateTurnoDto } from "./dto/update-turno.dto";
+import { UpdateTurnoDto } from './dto/update-turno.dto';
 
 @Injectable()
 export class TurnosService {
-  constructor(private repo: ConnectorService) {}
+  constructor(private repo: ConnectorService) { }
 
   // Funcion para mostrar todos los turnos y sus datos
   async findAll(): Promise<Turno[]> {
@@ -52,13 +52,13 @@ export class TurnosService {
             create:
               createTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
                 ? createTurnoDto.servicios.map((servicio) => ({
-                    servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
-                    activo: true,
-                  }))
+                  servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
+                  activo: true,
+                }))
                 : {
-                    servicio: { connect: { id: createTurnoDto.servicios[0] } }, // Conecta el servicio con el turno si es uno solo
-                    activo: true,
-                  },
+                  servicio: { connect: { id: createTurnoDto.servicios[0] } }, // Conecta el servicio con el turno si es uno solo
+                  activo: true,
+                },
           },
         },
       })
@@ -82,19 +82,19 @@ export class TurnosService {
   }
 
   // Funcion para mostrar un turno en particular
-   findOne(id: string): Promise<Turno & { TurnoServicio: { servicio_id: string }[] }> {
+  findOne(id: string): Promise<Turno & { TurnoServicio: { servicio_id: string }[] }> {
     return this.repo.turno.findUnique({
       where: { id },
-      include: {  TurnoServicio: { include: { servicio: true } } },
+      include: { TurnoServicio: { include: { servicio: true } } },
     });
   }
 
-    // Function to get selected services by turno
-    async getSelectedServicesByTurno(id: string): Promise<string[]> {
-      const turno = await this.findOne(id);
-      return turno.TurnoServicio.map((turnoServicio) => turnoServicio.servicio_id);
-    }
-  
+  // Function to get selected services by turno
+  async getSelectedServicesByTurno(id: string): Promise<string[]> {
+    const turno = await this.findOne(id);
+    return turno.TurnoServicio.map((turnoServicio) => turnoServicio.servicio_id);
+  }
+
 
   // Funcion para buscar el turno de un cliente especifico
   async findTurnoByClienteId(id: string): Promise<Turno> {
@@ -106,6 +106,9 @@ export class TurnosService {
 
   // Funcion para actualizar un turno
   async update(id: string, updateTurnoDto: UpdateTurnoDto) {
+
+    console.log(updateTurnoDto.servicios); // Log the services
+
     this.repo.turno
       .update({
         where: { id },
@@ -127,25 +130,29 @@ export class TurnosService {
           usuario: {
             connect: { id: updateTurnoDto.usuario },
           },
+
           TurnoServicio: {
             deleteMany: { turno_id: id }, // Elimina todos los servicios del turno
             create:
-              updateTurnoDto.servicios.length > 1 //comprueba si se seleccionaron varios servicios
-                ? updateTurnoDto.servicios.map((servicio) => ({
-                    servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
-                    activo: true,
-                  }))
-                : {
-                    servicio: { connect: { id: updateTurnoDto.servicios[0] } }, // Conecta el servicio con el turno si es uno solo
-                    activo: true,
-                  },
+              (Array.isArray(updateTurnoDto.servicios)) ? //comprueba si se seleccionaron varios servicios
+                updateTurnoDto.servicios.map((servicio) => ({
+                  servicio: { connect: { id: servicio } }, // Conecta el servicio con el turno si son varios
+                  activo: true,
+                })) :
+                {
+                  servicio: { connect: { id: updateTurnoDto.servicios } }, // Conecta el servicio con el turno si es uno solo
+                  activo: true,
+                }
           },
+
         },
+
       })
       .catch((e) => {
         console.error(e); // Log the error
       });
   }
+
 
   // Funcion para buscar los servicios de un turno
   async findServiciosByTurno() {
