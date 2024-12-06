@@ -18,19 +18,19 @@ export declare class TurnosService {
     update(id: string, updateTurnoDto: UpdateTurnoDto): Promise<void>;
     findServiciosByTurno(): Promise<({
         TurnoServicio: {
-            id: string;
             activo: boolean | null;
-            turno_id: string;
+            id: string;
             servicio_id: string;
+            turno_id: string;
         }[];
     } & {
+        activo: boolean | null;
         id: string;
         fecha: Date;
         hora: Date;
+        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
         usuario_id: string;
         cliente_id: string;
-        activo: boolean | null;
-        estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
     })[]>;
     remove(id: string): Promise<void>;
 }
