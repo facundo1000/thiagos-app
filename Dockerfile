@@ -1,19 +1,19 @@
-# Usa una imagen base oficial de Node.js
+# Use an official Node.js base image for the build stage
 FROM node:20-alpine AS builder
 
 # Install pnpm
 RUN npm install -g pnpm
 
-# Establece el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copia los archivos de configuración de la aplicación
+# Copy the application configuration files
 COPY package.json pnpm-lock.yaml ./
 
-# Instala las dependencias de la aplicación
+# Install dependencies
 RUN pnpm install
 
-# Copia el resto de los archivos de la aplicación
+# Copy the rest of the application files
 COPY . .
 
 # Generate the Prisma client
@@ -32,14 +32,14 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # Copy only the necessary files from the builder stage
-COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/views ./views
 COPY --from=builder /app/public ./public
 
 # Install only production dependencies
-RUN pnpm prune --production && pnpm cache clean --force
+RUN pnpm prune --prod && pnpm cache clean --force
 
 # Expose the port the application runs on
 EXPOSE 3000
