@@ -23,7 +23,7 @@ RUN npm install @prisma/client
 RUN npx prisma generate
 
 # Instala el Prisma Migrate
-RUN npx prisma migrate reset
+# RUN npx prisma migrate dev 
 
 # Compila la aplicación TypeScript y copia los archivos de vistas
 RUN npm run build && npm run copyfiles
