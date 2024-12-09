@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Instala el Prisma
-RUN npm install prisma --save-dev
+RUN npm install prisma
 
 # Instala el Prisma client
 RUN npm install @prisma/client
