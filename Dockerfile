@@ -5,7 +5,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copia los archivos de configuración de la aplicación
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 # Instala las dependencias
 RUN npm install
