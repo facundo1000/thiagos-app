@@ -8,7 +8,7 @@ export declare class ServiciosController {
         servicios: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;
@@ -21,7 +21,7 @@ export declare class ServiciosController {
         servicio: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;
@@ -32,7 +32,7 @@ export declare class ServiciosController {
         servicio: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;
@@ -40,7 +40,7 @@ export declare class ServiciosController {
         servicios: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;

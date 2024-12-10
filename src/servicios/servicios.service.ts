@@ -25,13 +25,13 @@ export class ServiciosService {
   }
 
   //Funcion para buscar servicio por id
-  async findOne(id: number): Promise<Servicio> {
+  async findOne(id: string): Promise<Servicio> {
     return this.repo.servicio.findUnique({ where: { id } });
   }
 
   //Funcion para actualizar servicio
   async update(
-    id: number,
+    id: string,
     updateServicioDto: UpdateServicioDto
   ): Promise<void> {
     const transformServicio = {
@@ -48,7 +48,7 @@ export class ServiciosService {
   }
 
   //Funcion para eliminar servicio
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const servicio = this.repo.servicio.update({
       where: { id },
       data: { activo: false },

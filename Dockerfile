@@ -1,38 +1,48 @@
-# Usa una imagen base oficial de Node.js
-FROM node:20-alpine
+# Use an official Node.js base image for the build stage
+FROM node:20-alpine AS builder
 
-# Establece el directorio de trabajo
+# Install pnpm
+RUN npm install -g pnpm
+
+# Set the working directory
 WORKDIR /app
 
-# Copia los archivos de configuración de la aplicación
-COPY package.json ./
+# Copy the application configuration files
+COPY package.json pnpm-lock.yaml ./
 
-# Instala las dependencias
-RUN npm install
+# Install dependencies
+RUN pnpm install
 
-# Copia el resto de los archivos de la aplicación
+# Copy the rest of the application files
 COPY . .
 
-# Instala el Prisma
-RUN npm install prisma --save-dev
-
-# Instala el Prisma client
-RUN npm install @prisma/client
-
-# Genera el Prisma client
+# Generate the Prisma client
 RUN npx prisma generate
 
-# Instala el Prisma Migrate
-RUN npx prisma migrate dev 
+# Compile the TypeScript application and copy view files
+RUN pnpm run build && pnpm run copyfiles
 
-# Compila la aplicación TypeScript y copia los archivos de vistas
-RUN npm run build && npm run copyfiles
+# Use a smaller base image for the final stage
+FROM node:20-alpine
 
-# Elimina las dependencias de desarrollo para reducir el tamaño de la imagen
-RUN npm prune --production && npm cache clean --force
+# Set the working directory
+WORKDIR /app
 
-# Expone el puerto en el que la aplicación se ejecuta
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/views ./views
+COPY --from=builder /app/public ./public
+
+# Install only production dependencies
+RUN pnpm prune --prod && pnpm cache clean --force
+
+# Expose the port the application runs on
 EXPOSE 3000
 
-# Comando para correr la aplicación
+# Set the command to run the application
 CMD ["node", "dist/main.js"]

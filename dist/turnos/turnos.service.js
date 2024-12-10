@@ -29,9 +29,6 @@ let TurnosService = class TurnosService {
     }
     async create(createTurnoDto) {
         console.log(createTurnoDto);
-        if (isNaN(+createTurnoDto.cliente) || isNaN(+createTurnoDto.usuario)) {
-            throw new Error("El id del cliente y el usuario deben ser un número");
-        }
         this.repo.turno
             .create({
             data: {
@@ -40,19 +37,19 @@ let TurnosService = class TurnosService {
                 activo: true,
                 estado: client_1.TURNO_ESTADOS.PENDIENTE,
                 cliente: {
-                    connect: { id: +createTurnoDto.cliente },
+                    connect: { id: createTurnoDto.cliente },
                 },
                 usuario: {
-                    connect: { id: +createTurnoDto.usuario },
+                    connect: { id: createTurnoDto.usuario },
                 },
                 TurnoServicio: {
                     create: createTurnoDto.servicios.length > 1
                         ? createTurnoDto.servicios.map((servicio) => ({
-                            servicio: { connect: { id: +servicio } },
+                            servicio: { connect: { id: servicio } },
                             activo: true,
                         }))
                         : {
-                            servicio: { connect: { id: +createTurnoDto.servicios } },
+                            servicio: { connect: { id: createTurnoDto.servicios[0] } },
                             activo: true,
                         },
                 },
@@ -77,7 +74,12 @@ let TurnosService = class TurnosService {
     findOne(id) {
         return this.repo.turno.findUnique({
             where: { id },
+            include: { TurnoServicio: { include: { servicio: true } } },
         });
+    }
+    async getSelectedServicesByTurno(id) {
+        const turno = await this.findOne(id);
+        return turno.TurnoServicio.map((turnoServicio) => turnoServicio.servicio_id);
     }
     async findTurnoByClienteId(id) {
         return this.repo.turno.findUnique({
@@ -86,6 +88,7 @@ let TurnosService = class TurnosService {
         });
     }
     async update(id, updateTurnoDto) {
+        console.log(updateTurnoDto.servicios);
         this.repo.turno
             .update({
             where: { id },
@@ -94,22 +97,22 @@ let TurnosService = class TurnosService {
                 hora: new Date(Date.UTC(0, 0, 0, +updateTurnoDto.hora.split(":")[0], +updateTurnoDto.hora.split(":")[1])),
                 estado: updateTurnoDto.estado,
                 cliente: {
-                    connect: { id: +updateTurnoDto.cliente },
+                    connect: { id: updateTurnoDto.cliente },
                 },
                 usuario: {
-                    connect: { id: +updateTurnoDto.usuario },
+                    connect: { id: updateTurnoDto.usuario },
                 },
                 TurnoServicio: {
                     deleteMany: { turno_id: id },
-                    create: updateTurnoDto.servicios.length > 1
-                        ? updateTurnoDto.servicios.map((servicio) => ({
-                            servicio: { connect: { id: +servicio } },
+                    create: (Array.isArray(updateTurnoDto.servicios)) ?
+                        updateTurnoDto.servicios.map((servicio) => ({
+                            servicio: { connect: { id: servicio } },
                             activo: true,
-                        }))
-                        : {
-                            servicio: { connect: { id: +updateTurnoDto.servicios } },
+                        })) :
+                        {
+                            servicio: { connect: { id: updateTurnoDto.servicios } },
                             activo: true,
-                        },
+                        }
                 },
             },
         })

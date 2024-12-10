@@ -3,7 +3,7 @@ import { ServiciosService } from "src/servicios/servicios.service";
 import { UsuariosService } from "src/usuarios/usuarios.service";
 import { CreateTurnoDto } from "./dto/create-turno.dto";
 import { UpdateTurnoDto } from "./dto/update-turno.dto";
-import { TurnosService } from "./turnos.service";
+import { TurnosService } from './turnos.service';
 export declare class TurnosController {
     private readonly turnosService;
     private clientes;
@@ -15,10 +15,10 @@ export declare class TurnosController {
             fecha: string;
             hora: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-            usuario_id: number;
-            cliente_id: number;
+            usuario_id: string;
+            cliente_id: string;
         }[];
         clientes: {
             nombre: string;
@@ -28,7 +28,7 @@ export declare class TurnosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         }[];
         usuarios: {
             nombre: string;
@@ -38,7 +38,7 @@ export declare class TurnosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;
@@ -49,7 +49,7 @@ export declare class TurnosController {
         servicios: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;
@@ -64,19 +64,22 @@ export declare class TurnosController {
             fecha: string;
             hora: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-            usuario_id: number;
-            cliente_id: number;
+            usuario_id: string;
+            cliente_id: string;
         }[];
         turno: {
             fecha: string;
             hora: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-            usuario_id: number;
-            cliente_id: number;
+            usuario_id: string;
+            cliente_id: string;
+            TurnoServicio: {
+                servicio_id: string;
+            }[];
         };
         usuarios: {
             nombre: string;
@@ -86,7 +89,7 @@ export declare class TurnosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
             baja_motivo: string | null;
             baja_fecha: Date | null;
             direccion: string;
@@ -102,38 +105,38 @@ export declare class TurnosController {
             email: string;
             telefono: bigint;
             activo: boolean | null;
-            id: number;
+            id: string;
         }[];
         servicios: {
             nombre: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             precio: number;
             baja_motivo: string | null;
             baja_fecha: Date | null;
         }[];
         edit: boolean;
-        serviciosSelected: number[];
+        serviciosSelected: string[];
     }>;
     showDetails(id: string): Promise<{
         turno: {
             fecha: string;
             hora: string;
             activo: boolean | null;
-            id: number;
+            id: string;
             estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-            usuario_id: number;
-            cliente_id: number;
+            usuario_id: string;
+            cliente_id: string;
         };
     }>;
     acceptTurno(id: string): Promise<{
         activo: boolean | null;
-        id: number;
+        id: string;
         fecha: Date;
         hora: Date;
         estado: import("@prisma/client").$Enums.TURNO_ESTADOS | null;
-        usuario_id: number;
-        cliente_id: number;
+        usuario_id: string;
+        cliente_id: string;
     }>;
     create(createTurnoDto: CreateTurnoDto): Promise<void>;
     update(id: string, updateTurnoDto: UpdateTurnoDto): Promise<void>;

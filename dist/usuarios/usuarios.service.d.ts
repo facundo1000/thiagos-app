@@ -7,7 +7,7 @@ export declare class UsuariosService {
     constructor(repo: ConnectorService);
     findAll(): Promise<Usuario[]>;
     create(userDto: CreateUsuarioDto): Promise<Usuario>;
-    findOne(id: number): Promise<Usuario>;
-    update(id: number, updateDto: UpdateUsuarioDto): Promise<void>;
-    remove(id: number): Promise<void>;
+    findOne(id: string): Promise<Usuario>;
+    update(id: string, updateDto: UpdateUsuarioDto): Promise<void>;
+    remove(id: string): Promise<void>;
 }

@@ -42,7 +42,7 @@ export class ServiciosController {
   @Get("/edit/servicio/:id")
   @Render("servicios")
   async edit(@Param("id") id: string) {
-    const servicio = await this.serviciosService.findOne(+id);
+    const servicio = await this.serviciosService.findOne(id);
     const servicios = await this.serviciosService.findAll();
     const edit: boolean = true;
     return { servicio, servicios, edit };
@@ -55,13 +55,13 @@ export class ServiciosController {
     @Param("id") id: string,
     @Body() updateServicioDto: UpdateServicioDto
   ) {
-    return this.serviciosService.update(+id, updateServicioDto);
+    return this.serviciosService.update(id, updateServicioDto);
   }
 
   //Funcion para eliminar servicio
   @Get("/delete/servicio/:id")
   @Redirect("/servicios?borrar=true")
   remove(@Param("id") id: string) {
-    this.serviciosService.remove(+id);
+    this.serviciosService.remove(id);
   }
 }

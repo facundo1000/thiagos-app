@@ -5,12 +5,14 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
 enum TURNO_ESTADOS {
@@ -27,7 +29,7 @@ enum TIPO_DNI {
 }
 
 model Usuario {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nombre      String
   apellido    String
   tipo_dni    TIPO_DNI?
@@ -45,12 +47,12 @@ model Usuario {
 }
 
 model Turno {
-  id            Int             @id @default(autoincrement())
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   fecha         DateTime        @db.Date
   hora          DateTime        @db.Time(3)
-  usuario_id    Int
+  usuario_id    String          @db.Uuid
   usuario       Usuario         @relation(fields: [usuario_id], references: [id], onUpdate: Cascade)
-  cliente_id    Int
+  cliente_id    String          @db.Uuid
   cliente       Cliente         @relation(fields: [cliente_id], references: [id], onUpdate: Cascade)
   activo        Boolean?
   estado        TURNO_ESTADOS?
@@ -58,7 +60,7 @@ model Turno {
 }
 
 model Cliente {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nombre   String
   apellido String
   tipo_dni TIPO_DNI?
@@ -70,7 +72,7 @@ model Cliente {
 }
 
 model Servicio {
-  id            Int             @id @default(autoincrement())
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nombre        String
   precio        Float
   baja_motivo   String?
@@ -81,10 +83,10 @@ model Servicio {
 
 //Tabla intermedia para la relación muchos a muchos entre Turno y Servicio
 model TurnoServicio {
-  id          Int      @id @default(autoincrement())
-  turno_id    Int
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  turno_id    String   @db.Uuid
   turno       Turno    @relation(fields: [turno_id], references: [id])
-  servicio_id Int
+  servicio_id String   @db.Uuid
   servicio    Servicio @relation(fields: [servicio_id], references: [id])
   activo      Boolean?
 }

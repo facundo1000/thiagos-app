@@ -1,144 +1,143 @@
 <!DOCTYPE html>
 <html>
-  {{> head }}
-  <body>
+{{> head }}
+
+<body>
     {{> header }}
     {{> aside }}
-    <main  class="md:ml-64 h-auto pt-20">
+    <main class="md:ml-64 h-auto pt-20">
         {{!-- Alerta de creacion --}}
-        {{#if success }} {{>alertCreate  message="Servicio creado con exito" path="/servicios"}} {{/if}}
+        {{#if success }} {{>alertCreate message="Servicio creado con exito" path="/servicios"}} {{/if}}
         {{!-- Alerta de eliminacion --}}
-       {{#if borrar }} {{>alertDelete message="Servicio eliminado con exito" path="/servicios"}} {{/if}}
+        {{#if borrar }} {{>alertDelete message="Servicio eliminado con exito" path="/servicios"}} {{/if}}
         {{!-- Alerta de actualizacion --}}
-       {{#if actualizar }}  {{>alertUpdate message="Servicio actualizado con exito" path="/servicios"}} {{/if}}
-     {{!-- Formulario y Tabla --}}
-      <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
+        {{#if actualizar }} {{>alertUpdate message="Servicio actualizado con exito" path="/servicios"}} {{/if}}
+        {{!-- Formulario y Tabla --}}
+        <div class="border-1 border-gray-300 dark:border-gray-600 mb-4">
 
-        <div class="p-2 flex justify-between items-center px-4 rounded-t border-b dark:border-gray-600">
-         <form action="{{#if edit}}/servicios/update/servicio/{{ servicio.id }}{{else}}servicios/create{{/if}}"  
-              method="post"
-              class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-            <h2 class="text-xl pb-4 text-gray-900 dark:text-white">{{#if edit }}Actualizacion{{else}}Registro{{/if}} de Servicio</h2>
-            <div class="grid md:grid-cols-2 md:gap-6">
-                <div class="grid md:grid-cols-1 md:gap-6">
+            <div class="p-2 flex justify-between items-center px-4 rounded-t border-b dark:border-gray-600">
+                <form action="{{#if edit}}/servicios/update/servicio/{{ servicio.id }}{{else}}servicios/create{{/if}}"
+                    method="post" class="p-5 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                    <h2 class="text-xl pb-4 text-gray-900 dark:text-white">{{#if edit
+                        }}Actualizacion{{else}}Registro{{/if}} de Servicio</h2>
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="grid md:grid-cols-1 md:gap-6">
 
 
-                    <div class="relative z-0 w-full mb-6 group"> <!-- input de nombre conectado con el controlador -->
-                        <input type="text"  name="nombre" id="nombre"
-                               class="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent 
+                            <div class="relative z-0 w-full mb-6 group">
+                                <!-- input de nombre conectado con el controlador -->
+                                <input type="text" name="nombre" id="nombre" class="block py-2.5 px-4 w-full text-sm text-gray-900 bg-transparent 
                                border-0 border-b-2 border-gray-300 appearance-none 
                                dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
-                               focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " value="{{servicio.nombre}}" required/>
-                        <label for="nombre"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
+                               focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "
+                                    value="{{servicio.nombre}}" required />
+                                <label for="nombre" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
                                transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
                                peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
                                peer-placeholder-shown:translate-y-0 
                                peer-focus:scale-75 peer-focus:-translate-y-6">Nombre/s</label>
-                    </div>
+                            </div>
 
 
 
-                </div>
-                <div class="grid md:grid-cols-2 md:gap-6 mx-4">
-                    <div class="relative z-0 w-full mb-6 group"> <!-- input de precio conectado con el controlador -->
-                        <input type="text" name="precio" id="precio"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 
+                        </div>
+                        <div class="grid md:grid-cols-2 md:gap-6 mx-4">
+                            <div class="relative z-0 w-full mb-6 group">
+                                <!-- input de precio conectado con el controlador -->
+                                <input type="text" name="precio" id="precio" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 
                                appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 
-                               focus:border-blue-600 peer"
-                               placeholder=" " value="{{ servicio.precio }}" required/>
-                        <label for="precio"
-                               class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
+                               focus:border-blue-600 peer" placeholder=" " value="{{ servicio.precio }}" required />
+                                <label for="precio" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
                                transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
                                peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
                                peer-placeholder-shown:translate-y-0 
                                peer-focus:scale-75 peer-focus:-translate-y-6">Precio</label>
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-            </div>
-            <button type="submit"
-                    class="{{#if edit }}text-white inline-flex items-center hover:bg-green-800 focus:ring-4 focus:outline-none 
+                    </div>
+                    <button type="submit" class="{{#if edit }}text-white inline-flex items-center hover:bg-green-800 focus:ring-4 focus:outline-none 
                     focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
                     bg-green-600 dark:hover:bg-green-600 dark:focus:ring-green-800   
                     {{else}}text-white inline-flex items-center hover:bg-blue-800 focus:ring-4 focus:outline-none 
                     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-                    bg-blue-600 dark:hover:bg-blue-600 dark:focus:ring-blue-800 {{/if}}"
-                    value="Guardar">
-                <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                          clip-rule="evenodd"></path>
-                </svg>
-                {{#if edit }}Editar{{else}}Registrar{{/if}} Servicio
-            </button>
-            <a href="/servicios" type="submit"
-               class="text-white inline-flex items-center hover:bg-gray-800 focus:ring-4 focus:outline-none 
+                    bg-blue-600 dark:hover:bg-blue-600 dark:focus:ring-blue-800 {{/if}}" value="Guardar">
+                        <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        {{#if edit }}Editar{{else}}Registrar{{/if}} Servicio
+                    </button>
+                    <a href="/servicios" type="submit" class="text-white inline-flex items-center hover:bg-gray-800 focus:ring-4 focus:outline-none 
                focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-gray-600 
                dark:hover:bg-gray-600 dark:focus:ring-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="mr-1 -ml-1 w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
-                </svg>
-                Limpiar campos
-            </a>
-        </form>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="mr-1 -ml-1 w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                        Limpiar campos
+                    </a>
+                </form>
 
 
-    </div>
+            </div>
 
-    <h2 class="text-xl pb-2 pl-5 text-gray-900 dark:text-white">Listado de Servicios</h2>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    ID
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Nombre
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Precio
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Acciones
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-          {{#each servicios}}
-          {{#if activo}}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ id }}
-                </th>
-                <td class="px-6 py-4">
-                    {{ nombre }}
-                </td>
-                <td class="px-6 py-4">
-                    ${{ precio }}
-                </td>         
-                <td class="px-2 py-4 font-medium flex flex-row text-gray-900 whitespace-nowrap dark:text-white">
-                    <a href="/servicios/edit/servicio/{{ id }}" class="flex mx-auto items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-white 
+            <h2 class="text-xl pb-2 pl-5 text-gray-900 dark:text-white">Listado de Servicios</h2>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            {{!-- <th scope="col" class="px-6 py-3">
+                                ID
+                            </th> --}}
+                            <th scope="col" class="px-6 py-3">
+                                Nombre
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Precio
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each servicios}}
+                        {{#if activo}}
+                        <tr
+                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            {{!-- <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ id }}
+                            </th> --}}
+                            <td class="px-6 py-4">
+                                {{ nombre }}
+                            </td>
+                            <td class="px-6 py-4">
+                                ${{ precio }}
+                            </td>
+                            <td
+                                class="px-2 py-4 font-medium flex flex-row text-gray-900 whitespace-nowrap dark:text-white">
+                                <a href="/servicios/edit/servicio/{{ id }}" class="flex mx-auto items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-white 
                     transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-700 hover:bg-blue-700 
                     focus:outline-none focus:shadow-outline-blue">Edit</a>
-                    <a href="/servicios/delete/servicio/{{ id }}" onclick="return confirm('Esta seguro de eliminar el usuario?')" 
-                    class="flex mx-auto items-center justify-between px-2 py-2 text-sm font-medium leading-5 
+                                <a href="/servicios/delete/servicio/{{ id }}"
+                                    onclick="return confirm('Esta seguro de eliminar el usuario?')" class="flex mx-auto items-center justify-between px-2 py-2 text-sm font-medium leading-5 
                     text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 
                     hover:bg-red-600 focus:outline-none focus:shadow-outline-red">Eliminar</a>
-                </td>
-            </tr>
-            {{/if}}
-          {{/each}}
-        </tbody>
-    </table>
-   </div>
-</div>
+                            </td>
+                        </tr>
+                        {{/if}}
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-</main>
+    </main>
 </body>
+
 </html>

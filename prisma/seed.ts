@@ -5,9 +5,10 @@ import { PrismaClient, TIPO_DNI, TURNO_ESTADOS } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const registros = await prisma.usuario.createMany({
-    data: [
-      {
+  // Create usuarios and obtain their ids
+  const registros = await Promise.all([
+    prisma.usuario.create({
+      data: {
         nombre: "Juan",
         apellido: "Perez",
         tipo_dni: TIPO_DNI.DNI,
@@ -20,9 +21,11 @@ async function main() {
         pais: "Argentina",
         activo: true,
       },
-      {
-        nombre: "maria",
-        apellido: "perez",
+    }),
+    prisma.usuario.create({
+      data: {
+        nombre: "Maria",
+        apellido: "Perez",
         tipo_dni: TIPO_DNI.DNI,
         dni: 222666333,
         direccion: "Calle Trucha 123",
@@ -33,13 +36,14 @@ async function main() {
         pais: "Argentina",
         activo: true,
       },
-    ],
-  });
+    }),
+  ]);
+
 
   // Clientes
-  const clientes = await prisma.cliente.createMany({
-    data: [
-      {
+  const clientes = await Promise.all([
+    prisma.cliente.create({
+      data: {
         nombre: "martin",
         apellido: "lopez",
         tipo_dni: TIPO_DNI.DNI,
@@ -48,7 +52,9 @@ async function main() {
         telefono: 36549878,
         activo: true,
       },
-      {
+    }),
+    prisma.cliente.create({
+      data: {
         nombre: "juan",
         apellido: "martinez",
         tipo_dni: TIPO_DNI.DNI,
@@ -57,58 +63,62 @@ async function main() {
         telefono: 11987654,
         activo: true,
       },
-    ],
-  });
+    }),
+  ]);
 
-  // Servicios
-  const servicios = await prisma.servicio.createMany({
-    data: [
-      {
+  const servicios = await Promise.all([
+    prisma.servicio.create({
+      data: {
         nombre: "corte de pelo",
         precio: 1500,
         activo: true,
       },
-      {
+    }),
+    prisma.servicio.create({
+      data: {
         nombre: "depilacion",
         precio: 1800,
         activo: true,
       },
-    ],
-  });
+    }),
+  ]);
 
   //Turnos
-  const turnos = await prisma.turno.createMany({
-    data: [
-      {
+  const turnos = await Promise.all([
+    prisma.turno.create({
+      data: {
         fecha: new Date(2024, 9, 27),
         hora: new Date(Date.UTC(0, 0, 0, 10, 30)),
-        usuario_id: 1,
-        cliente_id: 1,
+        usuario_id: registros[0].id,
+        cliente_id: clientes[0].id,
         estado: TURNO_ESTADOS.PENDIENTE,
         activo: true,
       },
-      {
+    }),
+    prisma.turno.create({
+      data: {
         fecha: new Date(2024, 1, 10),
         hora: new Date(Date.UTC(0, 0, 0, 11, 33)),
-        cliente_id: 2,
-        usuario_id: 2,
+        cliente_id: clientes[1].id,
+        usuario_id: registros[1].id,
         estado: TURNO_ESTADOS.PENDIENTE,
         activo: true,
       },
-    ],
-  });
+    }),
+  ]);
+
 
   //Tabla intermedia TurnoServicio
   const turnos_servicios = await prisma.turnoServicio.createMany({
     data: [
       {
-        turno_id: 1,
-        servicio_id: 1,
+        turno_id: turnos[0].id,
+        servicio_id: servicios[0].id,
         activo: true,
       },
       {
-        turno_id: 2,
-        servicio_id: 2,
+        turno_id: turnos[1].id,
+        servicio_id: servicios[1].id,
         activo: true,
       },
     ],

@@ -32,17 +32,17 @@ let ClientesController = class ClientesController {
         return { cliente };
     }
     async edit(id) {
-        const cliente = await this.clientesService.findOne(+id);
+        const cliente = await this.clientesService.findOne(id);
         const clientes = await this.clientesService.findAll();
         const tipos = client_1.TIPO_DNI;
         const edit = true;
         return { cliente, clientes, tipos, edit };
     }
     update(id, updateClienteDto) {
-        this.clientesService.update(+id, updateClienteDto);
+        this.clientesService.update(id, updateClienteDto);
     }
     async remove(id) {
-        this.clientesService.remove(+id);
+        this.clientesService.remove(id);
     }
 };
 exports.ClientesController = ClientesController;
