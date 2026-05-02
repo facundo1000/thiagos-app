@@ -32,6 +32,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/views ./views
 RUN mkdir -p /app/public
 
+ENV DATABASE_URL=file:/app/data/db.sqlite
+
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
