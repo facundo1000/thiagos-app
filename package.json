@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "nest build",
-    "copyfiles": "copyfiles -u 1 views/**/* dist/views",
+    "copyfiles": "copyfiles -u 1 views/**/* dist/views && copyfiles -u 1 public/**/* dist/public",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
