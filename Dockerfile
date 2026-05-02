@@ -25,10 +25,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 COPY --from=builder /app/prisma ./prisma
 
-# Full install so prisma CLI is available for generate, then prune dev deps
-RUN pnpm install --frozen-lockfile && \
-    pnpm exec prisma generate && \
-    pnpm prune --prod
+# Full install (no prune) so prisma CLI stays available for db push at startup
+RUN pnpm install --frozen-lockfile && pnpm exec prisma generate
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/views ./views
@@ -39,5 +37,6 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
   CMD wget -qO- http://localhost:3000/ || exit 1
 
-# DATABASE_URL must be a volume-mounted path, e.g. file:/app/data/db.sqlite
-CMD ["sh", "-c", "npx prisma db push --skip-generate && node dist/main.js"]
+# Requires DATABASE_URL env var — set it in Render dashboard.
+# For SQLite: file:/app/data/db.sqlite  (mount a persistent disk at /app/data)
+CMD ["sh", "-c", "pnpm exec prisma db push && node dist/main.js"]
