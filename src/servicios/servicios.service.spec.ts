@@ -52,7 +52,7 @@ describe("ServiciosService", () => {
 
   describe("create", () => {
     it("coerces precio to number and sets activo true", async () => {
-      const dto = { nombre: "Depilacion", precio: "1800" as any, activo: false };
+      const dto = { nombre: "Depilacion", precio: "1800", activo: false };
       const created = { id: 2, nombre: "Depilacion", precio: 1800, activo: true };
       mockRepo.servicio.create.mockResolvedValue(created);
 
@@ -67,7 +67,7 @@ describe("ServiciosService", () => {
 
   describe("update", () => {
     it("coerces precio to number and forces activo true", async () => {
-      const dto = { nombre: "Corte", precio: "2000" as any } as any;
+      const dto = { nombre: "Corte", precio: "2000" } as any;
       mockRepo.servicio.update.mockResolvedValue({ id: 1, precio: 2000, activo: true });
 
       await service.update(1, dto);
