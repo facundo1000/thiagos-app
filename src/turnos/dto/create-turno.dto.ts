@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { Transform } from "class-transformer";
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { TURNOS_ESTADOS as TURNO_ESTADOS } from "src/utils/TURNOS_ESTADOS";
 
@@ -25,7 +26,9 @@ export class CreateTurnoDto {
   @IsOptional()
   estado: TURNO_ESTADOS;
 
+  // HTML forms send a single string when only one checkbox is checked
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @IsNotEmpty()
+  @IsString({ each: true })
   servicios: string[];
 }
