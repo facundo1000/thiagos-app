@@ -32,7 +32,7 @@ export declare class UsuariosController {
         actualizar: boolean;
     }>;
     create(createUsuarioDto: CreateUsuarioDto): Promise<{
-        user: Promise<{
+        user: {
             nombre: string;
             apellido: string;
             tipo_dni: import("@prisma/client").$Enums.TIPO_DNI | null;
@@ -47,7 +47,7 @@ export declare class UsuariosController {
             ciudad: string;
             provincia: string;
             pais: string;
-        }>;
+        };
         edit: boolean;
     }>;
     edit(id: string): Promise<{

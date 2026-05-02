@@ -29,7 +29,7 @@ let UsuariosController = class UsuariosController {
     }
     async create(createUsuarioDto) {
         const edit = false;
-        const user = this.usuariosService.create(createUsuarioDto);
+        const user = await this.usuariosService.create(createUsuarioDto);
         return { user, edit };
     }
     async edit(id) {

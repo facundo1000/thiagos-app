@@ -28,8 +28,7 @@ let TurnosService = class TurnosService {
         });
     }
     async create(createTurnoDto) {
-        console.log(createTurnoDto);
-        this.repo.turno
+        await this.repo.turno
             .create({
             data: {
                 fecha: new Date(createTurnoDto.fecha),
@@ -88,8 +87,7 @@ let TurnosService = class TurnosService {
         });
     }
     async update(id, updateTurnoDto) {
-        console.log(updateTurnoDto.servicios);
-        this.repo.turno
+        await this.repo.turno
             .update({
             where: { id },
             data: {

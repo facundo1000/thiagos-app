@@ -34,7 +34,7 @@ export class UsuariosController {
   @Redirect("/usuarios?success=true")
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     const edit: boolean = false;
-    const user = this.usuariosService.create(createUsuarioDto);
+    const user = await this.usuariosService.create(createUsuarioDto);
     return { user, edit };
   }
 

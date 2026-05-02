@@ -27,8 +27,7 @@
     }
   },
   "include": [
-    "src/**/*.ts",
-    "src/views/**/*",
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

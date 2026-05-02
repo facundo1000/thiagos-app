@@ -25,9 +25,7 @@ export class TurnosService {
 
   // Funcion para crear un turno
   async create(createTurnoDto: CreateTurnoDto): Promise<void> {
-    console.log(createTurnoDto);
-
-    this.repo.turno
+    await this.repo.turno
       .create({
         data: {
           fecha: new Date(createTurnoDto.fecha),
@@ -106,10 +104,7 @@ export class TurnosService {
 
   // Funcion para actualizar un turno
   async update(id: string, updateTurnoDto: UpdateTurnoDto) {
-
-    console.log(updateTurnoDto.servicios); // Log the services
-
-    this.repo.turno
+    await this.repo.turno
       .update({
         where: { id },
         data: {
