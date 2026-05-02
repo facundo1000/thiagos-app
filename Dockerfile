@@ -1,6 +1,7 @@
 # ---- build stage ----
 FROM node:20-alpine AS builder
 
+RUN apk add --no-cache openssl
 RUN npm install -g pnpm
 
 WORKDIR /app
@@ -16,6 +17,7 @@ RUN pnpm run build && pnpm run copyfiles
 # ---- runtime stage ----
 FROM node:20-alpine
 
+RUN apk add --no-cache openssl
 RUN npm install -g pnpm
 
 WORKDIR /app
