@@ -17,7 +17,7 @@ model Usuario {
   id          Int       @id @default(autoincrement())
   nombre      String
   apellido    String
-  tipo_dni    String
+  tipo_dni    String?
   dni         Int       @unique
   direccion   String
   ciudad      String
@@ -45,7 +45,7 @@ model Turno {
 }
 
 model Cliente {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   nombre   String
   apellido String
   tipo_dni String?

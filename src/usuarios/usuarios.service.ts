@@ -38,20 +38,20 @@ export class UsuariosService {
       dni: +updateDto.dni,
       telefono: +updateDto.telefono,
     };
-    const userUpdated = this.repo.usuario.update({
+    const userUpdated = await this.repo.usuario.update({
       where: { id },
       data: updateUser,
     });
-    console.log(`Usuario ${(await userUpdated).id} actualizado`); //Log de usuario actualizado
+    console.log(`Usuario ${userUpdated.id} actualizado`);
   }
 
   //Funcion para eliminar usuario
   async remove(id: number): Promise<void> {
-    const user = this.repo.usuario.update({
+    const user = await this.repo.usuario.update({
       where: { id },
       data: { activo: false },
     });
 
-    console.log(`Usuario ${(await user).id} eliminado`); //Log de usuario eliminado
+    console.log(`Usuario ${user.id} eliminado`);
   }
 }

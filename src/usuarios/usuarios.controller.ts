@@ -12,7 +12,7 @@ import {
 import { CreateUsuarioDto } from "./dto/create-usuario.dto";
 import { UpdateUsuarioDto } from "./dto/update-usuario.dto";
 import { UsuariosService } from "./usuarios.service";
-import { TIPO_DNI } from "@prisma/client";
+import { TIPO_DNI } from "src/utils/TIPO_DNI";
 
 @Controller("/usuarios")
 export class UsuariosController {
@@ -34,7 +34,7 @@ export class UsuariosController {
   @Redirect("/usuarios?success=true")
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     const edit: boolean = false;
-    const user = this.usuariosService.create(createUsuarioDto);
+    const user = await this.usuariosService.create(createUsuarioDto);
     return { user, edit };
   }
 

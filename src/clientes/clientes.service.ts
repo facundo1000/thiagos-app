@@ -45,20 +45,20 @@ export class ClientesService {
       telefono: +updateClienteDto.telefono,
     };
     //Actualizacion de cliente mediante cliente de prisma
-    const cliente = this.repo.cliente.update({
+    const cliente = await this.repo.cliente.update({
       where: { id },
       data: transformCliente,
     });
 
-    console.log(`CLiente ${(await cliente).id} actualizado`); //Log de usuario actualizado
+    console.log(`Cliente ${cliente.id} actualizado`);
   }
 
   //Funcion para eliminar cliente
   async remove(id: number): Promise<void> {
-    const cliente = this.repo.cliente.update({
+    const cliente = await this.repo.cliente.update({
       where: { id },
       data: { activo: false },
     });
-    console.log(`Usuario ${(await cliente).id} eliminado`); //Log de usuario eliminado
+    console.log(`Cliente ${cliente.id} eliminado`);
   }
 }

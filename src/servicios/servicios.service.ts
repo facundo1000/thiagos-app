@@ -39,20 +39,20 @@ export class ServiciosService {
       precio: +updateServicioDto.precio,
       activo: true,
     };
-    const servicio = this.repo.servicio.update({
+    const servicio = await this.repo.servicio.update({
       where: { id },
       data: transformServicio,
     });
 
-    console.log(`Servicio ${(await servicio).id} actualizado`); //Log de usuario actualizado
+    console.log(`Servicio ${servicio.id} actualizado`);
   }
 
   //Funcion para eliminar servicio
   async remove(id: number): Promise<void> {
-    const servicio = this.repo.servicio.update({
+    const servicio = await this.repo.servicio.update({
       where: { id },
       data: { activo: false },
     });
-    console.log(`Servicio ${(await servicio).id} eliminado`); //Log de usuario actualizado
+    console.log(`Servicio ${servicio.id} eliminado`);
   }
 }

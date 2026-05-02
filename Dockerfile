@@ -1,38 +1,40 @@
-# Usa una imagen base oficial de Node.js
-FROM node:20-alpine
+# ---- build stage ----
+FROM node:20-alpine AS builder
 
-# Establece el directorio de trabajo
+RUN npm install -g pnpm
+
 WORKDIR /app
 
-# Copia los archivos de configuración de la aplicación
-COPY package.json ./
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
-# Instala las dependencias
-RUN npm install
-
-# Copia el resto de los archivos de la aplicación
 COPY . .
 
-# Instala el Prisma
-RUN npm install prisma --save-dev
+RUN pnpm exec prisma generate
+RUN pnpm run build && pnpm run copyfiles
 
-# Instala el Prisma client
-RUN npm install @prisma/client
+# ---- runtime stage ----
+FROM node:20-alpine
 
-# Instala el Prisma Migrate
-RUN npx prisma migrate dev 
+RUN npm install -g pnpm
 
-# Genera el Prisma client
-RUN npx prisma generate
+WORKDIR /app
 
-# Compila la aplicación TypeScript y copia los archivos de vistas
-RUN npm run build && npm run copyfiles
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
 
-# Elimina las dependencias de desarrollo para reducir el tamaño de la imagen
-RUN npm prune --production && npm cache clean --force
+# Copy generated Prisma client and compiled app
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/views ./views
+COPY --from=builder /app/public ./public
 
-# Expone el puerto en el que la aplicación se ejecuta
 EXPOSE 3000
 
-# Comando para correr la aplicación
-CMD ["node", "dist/main.js"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget -qO- http://localhost:3000/ || exit 1
+
+# Apply schema to the SQLite DB before starting the app.
+# DATABASE_URL must be provided at runtime (e.g. file:/app/data/db.sqlite).
+CMD ["sh", "-c", "npx prisma db push --skip-generate && node dist/main.js"]
